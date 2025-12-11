@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lotka-Volterra Predator-Prey Simulator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- MathJax for pretty equations -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    async
+  ></script>
+  <style>
+    :root {
+      font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      color: #111827;
+      background-color: #f3f4f6;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 1.5rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .page {
+      max-width: 1200px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 1.75rem 2rem 2rem;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    }
+
+    h1 {
+      margin: 0 0 0.5rem;
+      font-size: 1.9rem;
+    }
+
+    p.lead {
+      margin: 0 0 1.25rem;
+      color: #4b5563;
+      font-size: 0.95rem;
+      max-width: 800px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(340px, 420px) minmax(0, 1fr);
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 1000px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: #f9fafb;
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+      padding: 1rem 1.2rem;
+      min-width: 0;
+    }
+
+    .card h2 {
+      margin: 0 0 0.5rem;
+      font-size: 1.05rem;
+    }
+
+    .params-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.7rem 1rem;
+    }
+
+    @media (max-width: 600px) {
+      .params-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      font-size: 0.85rem;
+      min-width: 0;
+    }
+
+    .field label span {
+      font-weight: 500;
+    }
+
+    .field small {
+      color: #6b7280;
+    }
+
+    .field input[type="number"] {
+      padding: 0.3rem 0.4rem;
+      border-radius: 6px;
+      border: 1px solid #d1d5db;
+      font-size: 0.85rem;
+      width: 100%;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.9rem;
+    }
+
+    button {
+      border-radius: 6px;
+      border: 1px solid #d1d5db;
+      background: #ffffff;
+      padding: 0.35rem 0.7rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease,
+        transform 0.05s ease;
+    }
+
+    button:hover {
+      background: #eff6ff;
+      border-color: #2563eb;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    button.primary {
+      background: #2563eb;
+      border-color: #1d4ed8;
+      color: white;
+    }
+
+    button.primary:hover {
+      background: #1d4ed8;
+    }
+
+    button.preset-selected {
+      background: #eff4ff;
+      border-color: #2563eb;
+    }
+
+    .chart-wrapper {
+      height: 320px;
+      width: 100%;
+    }
+
+    .summary {
+      font-size: 0.9rem;
+      color: #374151;
+      margin-top: 0.5rem;
+    }
+
+    .summary strong {
+      font-weight: 600;
+    }
+
+    .summary-line {
+      margin: 0.1rem 0;
+    }
+
+    .bullets {
+      margin: 0.45rem 0 0;
+      padding-left: 1.1rem;
+      font-size: 0.86rem;
+      color: #4b5563;
+    }
+
+    .bullets li {
+      margin-bottom: 0.2rem;
+    }
+
+    .footer-note {
+      margin-top: 0.8rem;
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.05rem 0.4rem;
+      border-radius: 9999px;
+      border: 1px solid #93c5fd;
+      background: #eff6ff;
+      font-size: 0.7rem;
+      color: #1d4ed8;
+      margin-left: 0.25rem;
+      vertical-align: middle;
+    }
+
+    .equations {
+      font-size: 0.88rem;
+      background: #eef2ff;
+      border-radius: 8px;
+      padding: 0.4rem 0.8rem 0.6rem;
+      margin-bottom: 0.6rem;
+      border: 1px solid #e5e7eb;
+      text-align: center;
+    }
+
+    .equations-line {
+      margin: 0.15rem 0;
+    }
+
+    .equations-note {
+      margin-top: 0.25rem;
+      color: #4b5563;
+      font-size: 0.82rem;
+    }
+
+    .explanation-header {
+      margin-top: 0.5rem;
+      margin-bottom: 0.2rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #111827;
+    }
+
+    .explanation-body {
+      font-size: 0.88rem;
+      color: #4b5563;
+      margin-top: 0.15rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <h1>Lotka-Volterra Predator-Prey Simulator</h1>
+      <p class="lead">
+        Classic Lotka-Volterra model with <strong>exponential prey growth</strong>
+        (no carrying capacity). Adjust prey growth, attack rate, conversion
+        efficiency (<code>b</code>), and predator mortality to see predator–prey
+        cycles, extinctions, and other dynamics in both time series and
+        phase-plane views.
+      </p>
+    </header>
+
+    <div class="layout">
+      <!-- Controls -->
+      <section class="card">
+        <h2>Model parameters</h2>
+        <div class="params-grid">
+          <div class="field">
+            <label for="r">
+              <span>r (prey growth rate)</span>
+              <small>per time step</small>
+            </label>
+            <input id="r" type="number" step="0.1" min="0" value="1.0" />
+          </div>
+          <div class="field">
+            <label for="a">
+              <span>a (attack rate)</span>
+              <small>how quickly predators find and kill prey</small>
+            </label>
+            <input id="a" type="number" step="0.001" min="0" value="0.02" />
+          </div>
+          <div class="field">
+            <label for="b">
+              <span>b (conversion efficiency)</span>
+              <small>prey → new predators</small>
+            </label>
+            <input id="b" type="number" step="0.01" min="0" max="1" value="0.5" />
+          </div>
+          <div class="field">
+            <label for="m">
+              <span>m (predator mortality rate)</span>
+              <small>per time step</small>
+            </label>
+            <input id="m" type="number" step="0.05" min="0" value="0.6" />
+          </div>
+          <div class="field">
+            <label for="N0">
+              <span>N(0) initial prey</span>
+            </label>
+            <input id="N0" type="number" step="1" min="0" value="40" />
+          </div>
+          <div class="field">
+            <label for="P0">
+              <span>P(0) initial predators</span>
+            </label>
+            <input id="P0" type="number" step="1" min="0" value="9" />
+          </div>
+          <div class="field">
+            <label for="tMax">
+              <span>t<sub>max</sub> (total time)</span>
+            </label>
+            <input id="tMax" type="number" step="10" min="1" value="60" />
+          </div>
+          <div class="field">
+            <label for="dt">
+              <span>Δt (time step)</span>
+              <small>smaller = smoother, slower</small>
+            </label>
+            <input id="dt" type="number" step="0.01" min="0.001" value="0.02" />
+          </div>
+        </div>
+
+        <div class="button-row">
+          <button id="runBtn" class="primary">Run simulation</button>
+          <button id="resetBtn">Reset defaults</button>
+        </div>
+
+        <hr style="margin: 1rem 0; border: none; border-top: 1px solid #e5e7eb" />
+
+        <h2 style="margin-top: 0.1rem">
+          Preset scenarios <span class="badge">teaching aid</span>
+        </h2>
+        <div id="presetButtons" class="button-row"></div>
+        <p class="footer-note">
+          Presets include classic undamped cycles, predator extinction, and
+          prey escape from predators. Use the time series and phase plane
+          together to see how trajectories behave.
+        </p>
+      </section>
+
+      <!-- Output -->
+      <section style="display: flex; flex-direction: column; gap: 1rem; min-width: 0;">
+        <div class="card">
+          <h2>Time series of predator and prey</h2>
+
+          <!-- Pretty equations block (MathJax) -->
+          <div class="equations">
+            <div class="equations-line">
+              \[
+              \frac{dN}{dt} = r N - a N P
+              \]
+            </div>
+            <div class="equations-line">
+              \[
+              \frac{dP}{dt} = b a N P - m P
+              \]
+            </div>
+            <div class="equations-note">
+              \(N\) = prey, \(P\) = predators. Prey grow exponentially with rate \(r\).
+              Predators remove prey at rate \(a N P\), convert a fraction \(b\) of that
+              prey into new predators, and die at rate \(m P\).
+            </div>
+          </div>
+
+          <p style="margin: 0 0 0.5rem; font-size: 0.85rem; color: #6b7280;">
+            Prey N(t) and predators P(t) through time under the classic
+            Lotka-Volterra predator-prey model.
+          </p>
+          <div class="chart-wrapper">
+            <canvas id="lvChart"></canvas>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Phase plane: prey vs predators</h2>
+          <p style="margin: 0 0 0.5rem; font-size: 0.85rem; color: #6b7280;">
+            Each point shows the state \((N, P)\) at a moment in time. The trajectory
+            arrowheads show the direction of motion through time. Dashed lines are
+            the zero-growth isoclines: \(P = r/a\) for prey and \(N = m/(b a)\) for predators.
+          </p>
+          <div class="chart-wrapper">
+            <canvas id="phaseChart"></canvas>
+          </div>
+          <div id="summary" class="summary"></div>
+        </div>
+
+        <div class="card">
+          <h2>How to use this simulator</h2>
+          <ul class="bullets">
+            <li>
+              Start with <strong>Undamped cycles (classic LV)</strong> to see long-lived
+              oscillations in both time series and phase plane.
+            </li>
+            <li>
+              Compare presets to see how changing <code>a</code>, <code>b</code>, or
+              <code>m</code> makes predators go extinct or lets prey escape.
+            </li>
+            <li>
+              Use the phase plane to emphasize that classic LV trajectories move
+              around closed orbits defined by the intersection of the isoclines.
+            </li>
+            <li>
+              Experiment with different initial conditions N(0) and P(0) to
+              see how starting densities choose which orbit the system follows.
+            </li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    // -----------------------------
+    // Default parameters & presets
+    // -----------------------------
+
+    // Defaults chosen to show nice undamped cycles
+    const defaultParams = {
+      r: 1.0,
+      a: 0.02,
+      b: 0.5,
+      m: 0.6,
+      N0: 40,
+      P0: 9,
+      tMax: 60,
+      dt: 0.02
+    };
+
+    const presets = [
+      {
+        id: "cycles",
+        label: "Undamped cycles (classic LV)",
+        description:
+          "Classic Lotka-Volterra behavior: predator and prey densities cycle indefinitely with little or no damping. The phase-plane trajectory is a closed or nearly closed orbit.",
+        params: {
+          r: 1.0,
+          a: 0.02,
+          b: 0.5,
+          m: 0.6,
+          N0: 40,
+          P0: 9,
+          tMax: 60,
+          dt: 0.02
+        }
+      },
+      {
+        id: "predator_extinction",
+        label: "Predator extinction",
+        description:
+          "Predators cannot replace themselves fast enough; they decline toward zero while prey grow nearly exponentially.",
+        params: {
+          r: 0.8,
+          a: 0.01,
+          b: 0.1,
+          m: 0.8,
+          N0: 40,
+          P0: 9,
+          tMax: 60,
+          dt: 0.02
+        }
+      },
+      {
+        id: "prey_escape",
+        label: "Prey escape (weak predation)",
+        description:
+          "Attack rate and conversion efficiency are low enough that predators stay rare while prey increase.",
+        params: {
+          r: 1.0,
+          a: 0.005,
+          b: 0.1,
+          m: 0.4,
+          N0: 40,
+          P0: 9,
+          tMax: 60,
+          dt: 0.02
+        }
+      },
+      {
+        id: "large_orbit",
+        label: "Large-amplitude cycles",
+        description:
+          "Different starting densities place the system on a larger orbit in the phase plane, producing big swings in both prey and predators.",
+        params: {
+          r: 1.0,
+          a: 0.02,
+          b: 0.5,
+          m: 0.6,
+          N0: 80,
+          P0: 4,
+          tMax: 60,
+          dt: 0.02
+        }
+      }
+    ];
+
+    // Global isocline info for the phase-plane plugin
+    window.currentIsoclines = { Niso: null, Piso: null };
+
+    // -----------------------------
+    // DOM helpers
+    // -----------------------------
+
+    function getNumber(id) {
+      const el = document.getElementById(id);
+      const v = parseFloat(el.value);
+      if (Number.isNaN(v)) return 0;
+      return v;
+    }
+
+    function setNumber(id, v) {
+      const el = document.getElementById(id);
+      el.value = v;
+    }
+
+    function loadParamsIntoInputs(p) {
+      setNumber("r", p.r);
+      setNumber("a", p.a);
+      setNumber("b", p.b);
+      setNumber("m", p.m);
+      setNumber("N0", p.N0);
+      setNumber("P0", p.P0);
+      setNumber("tMax", p.tMax);
+      setNumber("dt", p.dt);
+    }
+
+    // -----------------------------
+    // Simulation code
+    // -----------------------------
+
+    function simulatePredPrey(params) {
+      const { r, a, b, m, N0, P0, tMax, dt } = params;
+
+      const steps = Math.max(1, Math.floor(tMax / dt));
+      let N = N0;
+      let P = P0;
+      const times = [];
+      const Ns = [];
+      const Ps = [];
+
+      const sampleEvery = Math.max(1, Math.floor(0.5 / dt)); // ~ every 0.5 time units
+
+      let maxN = N0;
+      let maxP = P0;
+
+      for (let i = 0; i <= steps; i++) {
+        const t = i * dt;
+
+        if (i % sampleEvery === 0) {
+          times.push(t);
+          Ns.push(Math.max(0, N));
+          Ps.push(Math.max(0, P));
+        }
+
+        const dN = r * N - a * N * P;
+        const dP = b * a * N * P - m * P;
+
+        N += dN * dt;
+        P += dP * dt;
+
+        if (!Number.isFinite(N) || !Number.isFinite(P)) {
+          console.warn("Simulation blew up; stopping early.");
+          break;
+        }
+
+        // avoid negative densities due to numerical error
+        if (N < 0) N = 0;
+        if (P < 0) P = 0;
+
+        if (N > maxN) maxN = N;
+        if (P > maxP) maxP = P;
+      }
+
+      return {
+        times,
+        Ns,
+        Ps,
+        finalN: Ns[Ns.length - 1],
+        finalP: Ps[Ps.length - 1],
+        maxN,
+        maxP
+      };
+    }
+
+    function classifyOutcome(result, params) {
+      const { finalN, finalP, maxN, maxP } = result;
+      const { N0, P0 } = params;
+
+      const predatorNearZero = finalP < 0.05 * Math.max(1, maxP, P0);
+      const preyBig = finalN > 5 * Math.max(1, N0);
+
+      if (!Number.isFinite(finalN) || !Number.isFinite(finalP)) {
+        return "unstable";
+      }
+      if (!predatorNearZero && finalN > 0 && finalP > 0) {
+        return "coexistence";
+      }
+      if (predatorNearZero && preyBig) {
+        return "predator_extinct";
+      }
+      if (finalN === 0 && finalP > 0) {
+        return "prey_crash";
+      }
+      return "other";
+    }
+
+    function describeOutcomeLabel(code) {
+      switch (code) {
+        case "coexistence":
+          return "Predators and prey both persist: the system follows a closed or nearly closed orbit rather than settling to a fixed point.";
+        case "predator_extinct":
+          return "Predators die out while prey grow almost exponentially (predator extinction).";
+        case "prey_crash":
+          return "Prey are driven to very low density while predators temporarily remain.";
+        case "unstable":
+          return "The simulation became numerically unstable. Try a smaller time step Δt or smaller growth/interaction rates.";
+        case "other":
+        default:
+          return "This parameter combination does not fit neatly into the simple categories above but still follows Lotka-Volterra dynamics.";
+      }
+    }
+
+    function generatePedagogicalExplanation(result, params, outcomeCode, presetDesc) {
+      const { finalN, finalP } = result;
+      const { r, a, b, m, N0, P0 } = params;
+
+      const lines = [];
+
+      // High-level outcome
+      if (outcomeCode === "coexistence") {
+        lines.push(
+          "Both prey and predators remain at non-zero densities, and the system cycles indefinitely rather than converging to a fixed point. This is characteristic of the classic Lotka-Volterra model with exponential prey growth."
+        );
+      } else if (outcomeCode === "predator_extinct") {
+        lines.push(
+          "Predators decline toward zero while prey increase. Here the effective gains from predation (controlled by a and b) are too weak relative to predator mortality m for predators to keep up."
+        );
+      } else if (outcomeCode === "prey_crash") {
+        lines.push(
+          "Prey densities become very small while predators temporarily remain. This indicates very strong predation pressure relative to prey growth."
+        );
+      } else if (outcomeCode === "unstable") {
+        lines.push(
+          "The numerical solution became unstable. In practice this means the time step Δt is too large for the chosen rates; decreasing Δt will usually fix this."
+        );
+      } else {
+        lines.push(
+          "Prey and predators follow Lotka-Volterra dynamics but the final state does not fall into a simple textbook category."
+        );
+      }
+
+      // Interaction strength a
+      if (a < 0.01) {
+        lines.push(
+          "The attack rate a is relatively small, so predators remove prey slowly. This makes it easier for prey to increase and harder for predators to build up large populations."
+        );
+      } else if (a > 0.03) {
+        lines.push(
+          "The attack rate a is relatively large, so predators remove prey quickly. This can generate large swings in both prey and predator densities."
+        );
+      }
+
+      // Conversion efficiency and mortality
+      if (b * a * N0 > m) {
+        lines.push(
+          "With these parameters, the product b·a·N is large compared to predator mortality m, so predators can often replace themselves and participate in ongoing cycles."
+        );
+      } else {
+        lines.push(
+          "Because b·a·N is small relative to m, each predator has a hard time replacing itself, which pushes the system toward predator decline."
+        );
+      }
+
+      if (m > 0.7) {
+        lines.push(
+          "A high predator mortality rate m means predators die quickly unless prey densities are very high."
+        );
+      } else if (m < 0.4) {
+        lines.push(
+          "A relatively low predator mortality rate m means predators can persist even when prey drop, helping sustain cycles."
+        );
+      }
+
+      // Initial conditions
+      if (N0 > P0 * 5) {
+        lines.push(
+          "Initially, prey are much more abundant than predators. This usually leads to an early prey increase followed by a delayed predator boom."
+        );
+      } else if (P0 > N0) {
+        lines.push(
+          "Initially, predators are relatively common compared to prey, which can suppress prey early in the simulation."
+        );
+      }
+
+      if (presetDesc) {
+        lines.push("This run started from the preset scenario: " + presetDesc);
+      }
+
+      return lines.join(" ");
+    }
+
+    // -----------------------------
+    // Phase-plane plugin for arrows + labels
+    // -----------------------------
+
+    const phaseExtrasPlugin = {
+      id: "phaseExtras",
+      afterDatasetsDraw(chart, args, opts) {
+        const ctx = chart.ctx;
+        const datasets = chart.data.datasets;
+        if (!datasets || datasets.length === 0) return;
+
+        const trajData = datasets[0].data || [];
+        if (trajData.length < 3) return;
+
+        const xScale = chart.scales.x;
+        const yScale = chart.scales.y;
+
+        ctx.save();
+        ctx.strokeStyle = "rgba(55,65,81,0.9)";
+        ctx.fillStyle = "rgba(55,65,81,0.9)";
+
+        // Draw a few arrowheads along the trajectory
+        const positions = [0.25, 0.5, 0.75];
+        positions.forEach((frac) => {
+          const idx = Math.floor(frac * (trajData.length - 1));
+          const prev = trajData[Math.max(idx - 1, 0)];
+          const curr = trajData[idx];
+          const next = trajData[Math.min(idx + 1, trajData.length - 1)];
+
+          const x0 = xScale.getPixelForValue(prev.x);
+          const y0 = yScale.getPixelForValue(prev.y);
+          const x1 = xScale.getPixelForValue(next.x);
+          const y1 = yScale.getPixelForValue(next.y);
+
+          const dx = x1 - x0;
+          const dy = y1 - y0;
+          const len = Math.sqrt(dx * dx + dy * dy);
+          if (len === 0) return;
+
+          const ux = dx / len;
+          const uy = dy / len;
+
+          const size = 8; // pixels
+          const px = xScale.getPixelForValue(curr.x);
+          const py = yScale.getPixelForValue(curr.y);
+
+          // Arrowhead points
+          const tipX = px + ux * size;
+          const tipY = py + uy * size;
+          const leftX = px - ux * size * 0.4 + uy * size * 0.7;
+          const leftY = py - uy * size * 0.4 - ux * size * 0.7;
+          const rightX = px - ux * size * 0.4 - uy * size * 0.7;
+          const rightY = py - uy * size * 0.4 + ux * size * 0.7;
+
+          ctx.beginPath();
+          ctx.moveTo(tipX, tipY);
+          ctx.lineTo(leftX, leftY);
+          ctx.lineTo(rightX, rightY);
+          ctx.closePath();
+          ctx.fill();
+        });
+
+        // Draw labels for isoclines near axes
+        const iso = window.currentIsoclines || {};
+        const Niso = iso.Niso;
+        const Piso = iso.Piso;
+
+        ctx.font = "10px system-ui";
+        ctx.fillStyle = "#374151";
+
+        if (Number.isFinite(Niso)) {
+          const x = xScale.getPixelForValue(Niso);
+          const y = yScale.getPixelForValue(0);
+          ctx.textAlign = "center";
+          ctx.textBaseline = "top";
+          ctx.fillText("N = m/(b a)", x, y + 2);
+        }
+
+        if (Number.isFinite(Piso)) {
+          const x = xScale.getPixelForValue(0);
+          const y = yScale.getPixelForValue(Piso);
+          ctx.textAlign = "left";
+          ctx.textBaseline = "middle";
+          ctx.fillText("P = r/a", x + 2, y);
+        }
+
+        ctx.restore();
+      }
+    };
+
+    // -----------------------------
+    // Chart setup
+    // -----------------------------
+
+    const ctx = document.getElementById("lvChart").getContext("2d");
+    const phaseCtx = document.getElementById("phaseChart").getContext("2d");
+
+    let lvChart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: [],
+        datasets: [
+          {
+            label: "Prey N(t)",
+            data: [],
+            borderWidth: 2,
+            fill: false,
+            tension: 0.15
+          },
+          {
+            label: "Predators P(t)",
+            data: [],
+            borderWidth: 2,
+            fill: false,
+            tension: 0.15
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: "Time"
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: "Population size"
+            },
+            beginAtZero: true
+          }
+        },
+        plugins: {
+          legend: {
+            display: true
+          },
+          tooltip: {
+            mode: "index",
+            intersect: false
+          }
+        }
+      }
+    });
+
+    let phaseChart = new Chart(phaseCtx, {
+      type: "scatter",
+      data: {
+        datasets: []
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: "Prey N"
+            },
+            beginAtZero: true
+          },
+          y: {
+            title: {
+              display: true,
+              text: "Predators P"
+            },
+            beginAtZero: true
+          }
+        },
+        plugins: {
+          legend: {
+            display: true
+          },
+          tooltip: {
+            mode: "nearest",
+            intersect: false
+          }
+        }
+      },
+      plugins: [phaseExtrasPlugin]
+    });
+
+    function updateCharts(result, params) {
+      // time series
+      lvChart.data.labels = result.times;
+      lvChart.data.datasets[0].data = result.Ns;
+      lvChart.data.datasets[1].data = result.Ps;
+      lvChart.update();
+
+      // phase plane: trajectory + isoclines
+      const phaseData = result.Ns.map((N, i) => ({
+        x: N,
+        y: result.Ps[i]
+      }));
+
+      const r = params.r;
+      const a = params.a;
+      const b = params.b;
+      const m = params.m;
+
+      const Niso = (a > 0 && b > 0) ? m / (b * a) : null; // predator isocline
+      const Piso = (a > 0) ? r / a : null;                 // prey isocline
+
+      // choose plotting limits based on trajectory and isoclines
+      const maxNData = result.maxN || Math.max(...result.Ns, 1);
+      const maxPData = result.maxP || Math.max(...result.Ps, 1);
+
+      const maxNPlot = Math.max(
+        maxNData,
+        Number.isFinite(Niso) ? Niso : 0
+      ) * 1.1;
+      const maxPPlot = Math.max(
+        maxPData,
+        Number.isFinite(Piso) ? Piso : 0
+      ) * 1.1;
+
+      const preyIsoData = Number.isFinite(Piso)
+        ? [
+            { x: 0, y: Piso },
+            { x: maxNPlot, y: Piso }
+          ]
+        : [];
+
+      const predIsoData = Number.isFinite(Niso)
+        ? [
+            { x: Niso, y: 0 },
+            { x: Niso, y: maxPPlot }
+          ]
+        : [];
+
+      phaseChart.data.datasets = [
+        {
+          label: "Phase-plane trajectory",
+          data: phaseData,
+          borderWidth: 2,
+          showLine: true,
+          fill: false,
+          pointRadius: 2
+        },
+        {
+          label: "Prey isocline (dN/dt = 0)",
+          data: preyIsoData,
+          borderWidth: 1.5,
+          borderDash: [6, 4],
+          showLine: true,
+          pointRadius: 0,
+          fill: false
+        },
+        {
+          label: "Predator isocline (dP/dt = 0)",
+          data: predIsoData,
+          borderWidth: 1.5,
+          borderDash: [6, 4],
+          showLine: true,
+          pointRadius: 0,
+          fill: false
+        }
+      ];
+
+      phaseChart.options.scales.x.min = 0;
+      phaseChart.options.scales.y.min = 0;
+      phaseChart.options.scales.x.max = maxNPlot;
+      phaseChart.options.scales.y.max = maxPPlot;
+
+      // store isocline positions for plugin labels
+      window.currentIsoclines = { Niso, Piso };
+
+      phaseChart.update();
+    }
+
+    function updateSummary(result, params, presetDesc) {
+      const summaryEl = document.getElementById("summary");
+      const { finalN, finalP } = result;
+
+      const outcomeCode = classifyOutcome(result, params);
+      const qualitativeLabel = describeOutcomeLabel(outcomeCode);
+      const explanation = generatePedagogicalExplanation(
+        result,
+        params,
+        outcomeCode,
+        presetDesc
+      );
+
+      summaryEl.innerHTML = `
+        <p class="summary-line">
+          <strong>Final prey N(t<sub>max</sub>):</strong> ${finalN.toFixed(2)},
+          <strong>Final predators P(t<sub>max</sub>):</strong> ${finalP.toFixed(2)}
+        </p>
+        <p class="summary-line">
+          <strong>Outcome:</strong> ${qualitativeLabel}
+        </p>
+        <p class="explanation-header">How to interpret this run:</p>
+        <p class="explanation-body">${explanation}</p>
+      `;
+    }
+
+    // -----------------------------
+    // Interaction wiring
+    // -----------------------------
+
+    let currentPresetId = null;
+
+    function collectParamsFromInputs() {
+      return {
+        r: getNumber("r"),
+        a: getNumber("a"),
+        b: getNumber("b"),
+        m: getNumber("m"),
+        N0: getNumber("N0"),
+        P0: getNumber("P0"),
+        tMax: getNumber("tMax"),
+        dt: getNumber("dt")
+      };
+    }
+
+    function runSimulation(presetDesc = "") {
+      const params = collectParamsFromInputs();
+      const result = simulatePredPrey(params);
+      updateCharts(result, params);
+      updateSummary(result, params, presetDesc);
+    }
+
+    function resetDefaults() {
+      currentPresetId = null;
+      loadParamsIntoInputs(defaultParams);
+      markSelectedPresetButton(null);
+      const result = simulatePredPrey(defaultParams);
+      updateCharts(result, defaultParams);
+      updateSummary(result, defaultParams, "");
+    }
+
+    function markSelectedPresetButton(id) {
+      const container = document.getElementById("presetButtons");
+      const buttons = Array.from(container.querySelectorAll("button"));
+      buttons.forEach((btn) => {
+        if (btn.dataset.presetId === id) {
+          btn.classList.add("preset-selected");
+        } else {
+          btn.classList.remove("preset-selected");
+        }
+      });
+    }
+
+    function setupPresetButtons() {
+      const container = document.getElementById("presetButtons");
+      presets.forEach((preset) => {
+        const btn = document.createElement("button");
+        btn.textContent = preset.label;
+        btn.dataset.presetId = preset.id;
+        btn.addEventListener("click", () => {
+          currentPresetId = preset.id;
+          loadParamsIntoInputs(preset.params);
+          markSelectedPresetButton(preset.id);
+
+          const result = simulatePredPrey(preset.params);
+          updateCharts(result, preset.params);
+          updateSummary(result, preset.params, preset.description);
+        });
+        container.appendChild(btn);
+      });
+    }
+
+    // -----------------------------
+    // Initialize on page load
+    // -----------------------------
+
+    window.addEventListener("DOMContentLoaded", () => {
+      loadParamsIntoInputs(defaultParams);
+
+      document
+        .getElementById("runBtn")
+        .addEventListener("click", () =>
+          runSimulation(
+            currentPresetId
+              ? presets.find((p) => p.id === currentPresetId)?.description || ""
+              : ""
+          )
+        );
+
+      document
+        .getElementById("resetBtn")
+        .addEventListener("click", resetDefaults);
+
+      setupPresetButtons();
+      resetDefaults();
+    });
+  </script>
+</body>
+</html>
