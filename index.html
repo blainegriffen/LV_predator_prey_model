@@ -1,16 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
+<!-- saved from url=(0044)file:///C:/Users/bdg2/Downloads/preview.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
   <title>Lotka-Volterra Predator-Prey Simulator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Chart.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="./LV_predator-prey_files/chart.js.download"></script>
   <!-- MathJax for pretty equations -->
-  <script
-    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
-    async
-  ></script>
+  <script src="./LV_predator-prey_files/tex-mml-chtml.js.download" async=""></script>
   <style>
     :root {
       font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
@@ -48,6 +45,12 @@
       color: #4b5563;
       font-size: 0.95rem;
       max-width: 800px;
+    }
+
+    .author-line {
+      margin: 0 0 0.35rem;
+      color: #374151;
+      font-size: 0.92rem;
     }
 
     .layout {
@@ -236,7 +239,726 @@
       margin-top: 0.15rem;
     }
   </style>
-</head>
+<style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-math {
+  display: inline-block;
+  text-align: left;
+  line-height: 0;
+  text-indent: 0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  font-size-adjust: none;
+  letter-spacing: normal;
+  border-collapse: collapse;
+  word-wrap: normal;
+  word-spacing: normal;
+  white-space: nowrap;
+  direction: ltr;
+  padding: 1px 0;
+}
+
+mjx-container[jax="CHTML"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="CHTML"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="CHTML"][display="true"] mjx-math {
+  padding: 0;
+}
+
+mjx-container[jax="CHTML"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="CHTML"][justify="right"] {
+  text-align: right;
+}
+
+mjx-mfrac {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-frac {
+  display: inline-block;
+  vertical-align: 0.17em;
+  padding: 0 .22em;
+}
+
+mjx-frac[type="d"] {
+  vertical-align: .04em;
+}
+
+mjx-frac[delims] {
+  padding: 0 .1em;
+}
+
+mjx-frac[atop] {
+  padding: 0 .12em;
+}
+
+mjx-frac[atop][delims] {
+  padding: 0;
+}
+
+mjx-dtable {
+  display: inline-table;
+  width: 100%;
+}
+
+mjx-dtable > * {
+  font-size: 2000%;
+}
+
+mjx-dbox {
+  display: block;
+  font-size: 5%;
+}
+
+mjx-num {
+  display: block;
+  text-align: center;
+}
+
+mjx-den {
+  display: block;
+  text-align: center;
+}
+
+mjx-mfrac[bevelled] > mjx-num {
+  display: inline-block;
+}
+
+mjx-mfrac[bevelled] > mjx-den {
+  display: inline-block;
+}
+
+mjx-den[align="right"], mjx-num[align="right"] {
+  text-align: right;
+}
+
+mjx-den[align="left"], mjx-num[align="left"] {
+  text-align: left;
+}
+
+mjx-nstrut {
+  display: inline-block;
+  height: .054em;
+  width: 0;
+  vertical-align: -.054em;
+}
+
+mjx-nstrut[type="d"] {
+  height: .217em;
+  vertical-align: -.217em;
+}
+
+mjx-dstrut {
+  display: inline-block;
+  height: .505em;
+  width: 0;
+}
+
+mjx-dstrut[type="d"] {
+  height: .726em;
+}
+
+mjx-line {
+  display: block;
+  box-sizing: border-box;
+  min-height: 1px;
+  height: .06em;
+  border-top: .06em solid;
+  margin: .06em -.1em;
+  overflow: hidden;
+}
+
+mjx-line[type="d"] {
+  margin: .18em -.1em;
+}
+
+mjx-mrow {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-mi {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c {
+  display: inline-block;
+}
+
+mjx-utext {
+  display: inline-block;
+  padding: .75em 0 .2em 0;
+}
+
+mjx-mo {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-stretchy-h {
+  display: inline-table;
+  width: 100%;
+}
+
+mjx-stretchy-h > * {
+  display: table-cell;
+  width: 0;
+}
+
+mjx-stretchy-h > * > mjx-c {
+  display: inline-block;
+  transform: scalex(1.0000001);
+}
+
+mjx-stretchy-h > * > mjx-c::before {
+  display: inline-block;
+  width: initial;
+}
+
+mjx-stretchy-h > mjx-ext {
+  /* IE */ overflow: hidden;
+  /* others */ overflow: clip visible;
+  width: 100%;
+}
+
+mjx-stretchy-h > mjx-ext > mjx-c::before {
+  transform: scalex(500);
+}
+
+mjx-stretchy-h > mjx-ext > mjx-c {
+  width: 0;
+}
+
+mjx-stretchy-h > mjx-beg > mjx-c {
+  margin-right: -.1em;
+}
+
+mjx-stretchy-h > mjx-end > mjx-c {
+  margin-left: -.1em;
+}
+
+mjx-stretchy-v {
+  display: inline-block;
+}
+
+mjx-stretchy-v > * {
+  display: block;
+}
+
+mjx-stretchy-v > mjx-beg {
+  height: 0;
+}
+
+mjx-stretchy-v > mjx-end > mjx-c {
+  display: block;
+}
+
+mjx-stretchy-v > * > mjx-c {
+  transform: scaley(1.0000001);
+  transform-origin: left center;
+  overflow: hidden;
+}
+
+mjx-stretchy-v > mjx-ext {
+  display: block;
+  height: 100%;
+  box-sizing: border-box;
+  border: 0px solid transparent;
+  /* IE */ overflow: hidden;
+  /* others */ overflow: visible clip;
+}
+
+mjx-stretchy-v > mjx-ext > mjx-c::before {
+  width: initial;
+  box-sizing: border-box;
+}
+
+mjx-stretchy-v > mjx-ext > mjx-c {
+  transform: scaleY(500) translateY(.075em);
+  overflow: visible;
+}
+
+mjx-mark {
+  display: inline-block;
+  height: 0px;
+}
+
+mjx-TeXAtom {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+
+mjx-c.mjx-c1D451.TEX-I::before {
+  padding: 0.694em 0.52em 0.01em 0;
+  content: "d";
+}
+
+mjx-c.mjx-c1D441.TEX-I::before {
+  padding: 0.683em 0.888em 0 0;
+  content: "N";
+}
+
+mjx-c.mjx-c1D461.TEX-I::before {
+  padding: 0.626em 0.361em 0.011em 0;
+  content: "t";
+}
+
+mjx-c.mjx-c3D::before {
+  padding: 0.583em 0.778em 0.082em 0;
+  content: "=";
+}
+
+mjx-c.mjx-c1D45F.TEX-I::before {
+  padding: 0.442em 0.451em 0.011em 0;
+  content: "r";
+}
+
+mjx-c.mjx-c2212::before {
+  padding: 0.583em 0.778em 0.082em 0;
+  content: "\2212";
+}
+
+mjx-c.mjx-c1D44E.TEX-I::before {
+  padding: 0.441em 0.529em 0.01em 0;
+  content: "a";
+}
+
+mjx-c.mjx-c1D443.TEX-I::before {
+  padding: 0.683em 0.751em 0 0;
+  content: "P";
+}
+
+mjx-c.mjx-c1D44F.TEX-I::before {
+  padding: 0.694em 0.429em 0.011em 0;
+  content: "b";
+}
+
+mjx-c.mjx-c1D45A.TEX-I::before {
+  padding: 0.442em 0.878em 0.011em 0;
+  content: "m";
+}
+
+mjx-c.mjx-c28::before {
+  padding: 0.75em 0.389em 0.25em 0;
+  content: "(";
+}
+
+mjx-c.mjx-c2C::before {
+  padding: 0.121em 0.278em 0.194em 0;
+  content: ",";
+}
+
+mjx-c.mjx-c29::before {
+  padding: 0.75em 0.389em 0.25em 0;
+  content: ")";
+}
+
+mjx-c.mjx-c2F::before {
+  padding: 0.75em 0.5em 0.25em 0;
+  content: "/";
+}
+</style></head>
 <body>
   <div class="page">
     <header>
@@ -255,6 +977,28 @@
   </p>
 </header>
 
+    <div class="card" style="margin-bottom: 1.25rem;">
+      <h2>How to use this simulator</h2>
+      <ul class="bullets">
+        <li>
+          Start with <strong>Undamped cycles (classic LV)</strong> to see long-lived
+          oscillations in both time series and phase plane.
+        </li>
+        <li>
+          Compare presets to see how changing <code>a</code>, <code>b</code>, or
+          <code>m</code> makes predators go extinct or lets prey escape.
+        </li>
+        <li>
+          Use the phase plane to emphasize that classic LV trajectories move
+          around closed orbits defined by the intersection of the isoclines.
+        </li>
+        <li>
+          Experiment with different initial conditions N(0) and P(0) to
+          see how starting densities choose which orbit the system follows.
+        </li>
+      </ul>
+    </div>
+
 
     <div class="layout">
       <!-- Controls -->
@@ -266,67 +1010,60 @@
               <span>r (prey growth rate)</span>
               <small>per time step</small>
             </label>
-            <input id="r" type="number" step="0.1" min="0" value="1.0" />
+            <input id="r" type="number" step="0.1" min="0" value="1.0">
           </div>
           <div class="field">
             <label for="a">
               <span>a (attack rate)</span>
               <small>how quickly predators find and kill prey</small>
             </label>
-            <input id="a" type="number" step="0.001" min="0" value="0.02" />
+            <input id="a" type="number" step="0.001" min="0" value="0.02">
           </div>
           <div class="field">
             <label for="b">
               <span>b (conversion efficiency)</span>
               <small>prey → new predators</small>
             </label>
-            <input id="b" type="number" step="0.01" min="0" max="1" value="0.5" />
+            <input id="b" type="number" step="0.01" min="0" max="1" value="0.5">
           </div>
           <div class="field">
             <label for="m">
               <span>m (predator mortality rate)</span>
               <small>per time step</small>
             </label>
-            <input id="m" type="number" step="0.05" min="0" value="0.6" />
+            <input id="m" type="number" step="0.05" min="0" value="0.6">
           </div>
           <div class="field">
             <label for="N0">
               <span>N(0) initial prey</span>
             </label>
-            <input id="N0" type="number" step="1" min="0" value="40" />
+            <input id="N0" type="number" step="1" min="0" value="40">
           </div>
           <div class="field">
             <label for="P0">
               <span>P(0) initial predators</span>
             </label>
-            <input id="P0" type="number" step="1" min="0" value="9" />
+            <input id="P0" type="number" step="1" min="0" value="9">
           </div>
           <div class="field">
             <label for="tMax">
               <span>t<sub>max</sub> (total time)</span>
             </label>
-            <input id="tMax" type="number" step="10" min="1" value="60" />
+            <input id="tMax" type="number" step="10" min="1" value="60">
           </div>
-          <div class="field">
-            <label for="dt">
-              <span>Δt (time step)</span>
-              <small>smaller = smoother, slower</small>
-            </label>
-            <input id="dt" type="number" step="0.01" min="0.001" value="0.02" />
-          </div>
-        </div>
+</div>
 
         <div class="button-row">
           <button id="runBtn" class="primary">Run simulation</button>
           <button id="resetBtn">Reset defaults</button>
         </div>
 
-        <hr style="margin: 1rem 0; border: none; border-top: 1px solid #e5e7eb" />
+        <hr style="margin: 1rem 0; border: none; border-top: 1px solid #e5e7eb">
 
         <h2 style="margin-top: 0.1rem">
           Preset scenarios <span class="badge">teaching aid</span>
         </h2>
-        <div id="presetButtons" class="button-row"></div>
+        <div id="presetButtons" class="button-row"><button data-preset-id="cycles">Undamped cycles (classic LV)</button><button data-preset-id="predator_extinction">Predator extinction</button><button data-preset-id="prey_escape">Prey escape (weak predation)</button><button data-preset-id="large_orbit">Large-amplitude cycles</button></div>
         <p class="footer-note">
           Presets include classic undamped cycles, predator extinction, and
           prey escape from predators. Use the time series and phase plane
@@ -342,19 +1079,15 @@
           <!-- Pretty equations block (MathJax) -->
           <div class="equations">
             <div class="equations-line">
-              \[
-              \frac{dN}{dt} = r N - a N P
-              \]
+              <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" display="true" tabindex="0" ctxtmenu_counter="0" style="font-size: 113%; position: relative;"><mjx-math display="true" class="MJX-TEX" aria-hidden="true" style="margin-left: 0px; margin-right: 0px;"><mjx-mfrac><mjx-frac type="d"><mjx-num><mjx-nstrut type="d"></mjx-nstrut><mjx-mrow><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D451 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D441 TEX-I"></mjx-c></mjx-mi></mjx-mrow></mjx-num><mjx-dbox><mjx-dtable><mjx-line type="d"></mjx-line><mjx-row><mjx-den><mjx-dstrut type="d"></mjx-dstrut><mjx-mrow><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D451 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D461 TEX-I"></mjx-c></mjx-mi></mjx-mrow></mjx-den></mjx-row></mjx-dtable></mjx-dbox></mjx-frac></mjx-mfrac><mjx-mo class="mjx-n" space="4"><mjx-c class="mjx-c3D"></mjx-c></mjx-mo><mjx-mi class="mjx-i" space="4"><mjx-c class="mjx-c1D45F TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D441 TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n" space="3"><mjx-c class="mjx-c2212"></mjx-c></mjx-mo><mjx-mi class="mjx-i" space="3"><mjx-c class="mjx-c1D44E TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D441 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D443 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="block"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mfrac><mrow><mi>d</mi><mi>N</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mi>r</mi><mi>N</mi><mo>−</mo><mi>a</mi><mi>N</mi><mi>P</mi></math></mjx-assistive-mml></mjx-container>
             </div>
             <div class="equations-line">
-              \[
-              \frac{dP}{dt} = b a N P - m P
-              \]
+              <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" display="true" tabindex="0" ctxtmenu_counter="1" style="font-size: 113%; position: relative;"><mjx-math display="true" class="MJX-TEX" aria-hidden="true" style="margin-left: 0px; margin-right: 0px;"><mjx-mfrac><mjx-frac type="d"><mjx-num><mjx-nstrut type="d"></mjx-nstrut><mjx-mrow><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D451 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D443 TEX-I"></mjx-c></mjx-mi></mjx-mrow></mjx-num><mjx-dbox><mjx-dtable><mjx-line type="d"></mjx-line><mjx-row><mjx-den><mjx-dstrut type="d"></mjx-dstrut><mjx-mrow><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D451 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D461 TEX-I"></mjx-c></mjx-mi></mjx-mrow></mjx-den></mjx-row></mjx-dtable></mjx-dbox></mjx-frac></mjx-mfrac><mjx-mo class="mjx-n" space="4"><mjx-c class="mjx-c3D"></mjx-c></mjx-mo><mjx-mi class="mjx-i" space="4"><mjx-c class="mjx-c1D44F TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44E TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D441 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D443 TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n" space="3"><mjx-c class="mjx-c2212"></mjx-c></mjx-mo><mjx-mi class="mjx-i" space="3"><mjx-c class="mjx-c1D45A TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D443 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="block"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mfrac><mrow><mi>d</mi><mi>P</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mi>b</mi><mi>a</mi><mi>N</mi><mi>P</mi><mo>−</mo><mi>m</mi><mi>P</mi></math></mjx-assistive-mml></mjx-container>
             </div>
             <div class="equations-note">
-              \(N\) = prey, \(P\) = predators. Prey grow exponentially with rate \(r\).
-              Predators remove prey at rate \(a N P\), convert a fraction \(b\) of that
-              prey into new predators, and die at rate \(m P\).
+              <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="2" style="font-size: 113.2%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D441 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>N</mi></math></mjx-assistive-mml></mjx-container> = prey, <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="3" style="font-size: 113.2%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D443 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>P</mi></math></mjx-assistive-mml></mjx-container> = predators. Prey grow exponentially with rate <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="4" style="font-size: 113.2%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45F TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>r</mi></math></mjx-assistive-mml></mjx-container>.
+              Predators remove prey at rate <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="5" style="font-size: 113.2%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44E TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D441 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D443 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>a</mi><mi>N</mi><mi>P</mi></math></mjx-assistive-mml></mjx-container>, convert a fraction <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="6" style="font-size: 113.2%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44F TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>b</mi></math></mjx-assistive-mml></mjx-container> of that
+              prey into new predators, and die at rate <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="7" style="font-size: 113.2%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D45A TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D443 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>m</mi><mi>P</mi></math></mjx-assistive-mml></mjx-container>.
             </div>
           </div>
 
@@ -363,43 +1096,31 @@
             Lotka-Volterra predator-prey model.
           </p>
           <div class="chart-wrapper">
-            <canvas id="lvChart"></canvas>
+            <canvas id="lvChart" width="651" height="320" style="display: block; box-sizing: border-box; height: 320px; width: 651.6px;"></canvas>
           </div>
         </div>
 
         <div class="card">
           <h2>Phase plane: prey vs predators</h2>
           <p style="margin: 0 0 0.5rem; font-size: 0.85rem; color: #6b7280;">
-            Each point shows the state \((N, P)\) at a moment in time. The trajectory
+            Each point shows the state <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="8" style="font-size: 113.1%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mo class="mjx-n"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D441 TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c2C"></mjx-c></mjx-mo><mjx-mi class="mjx-i" space="2"><mjx-c class="mjx-c1D443 TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">(</mo><mi>N</mi><mo>,</mo><mi>P</mi><mo stretchy="false">)</mo></math></mjx-assistive-mml></mjx-container> at a moment in time. The trajectory
             arrowheads show the direction of motion through time. Dashed lines are
-            the zero-growth isoclines: \(P = r/a\) for prey and \(N = m/(b a)\) for predators.
+            the zero-growth isoclines: <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="9" style="font-size: 113.1%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D443 TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n" space="4"><mjx-c class="mjx-c3D"></mjx-c></mjx-mo><mjx-mi class="mjx-i" space="4"><mjx-c class="mjx-c1D45F TEX-I"></mjx-c></mjx-mi><mjx-texatom texclass="ORD"><mjx-mo class="mjx-n"><mjx-c class="mjx-c2F"></mjx-c></mjx-mo></mjx-texatom><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44E TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>P</mi><mo>=</mo><mi>r</mi><mrow data-mjx-texclass="ORD"><mo>/</mo></mrow><mi>a</mi></math></mjx-assistive-mml></mjx-container> for prey and <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="10" style="font-size: 113.1%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D441 TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n" space="4"><mjx-c class="mjx-c3D"></mjx-c></mjx-mo><mjx-mi class="mjx-i" space="4"><mjx-c class="mjx-c1D45A TEX-I"></mjx-c></mjx-mi><mjx-texatom texclass="ORD"><mjx-mo class="mjx-n"><mjx-c class="mjx-c2F"></mjx-c></mjx-mo></mjx-texatom><mjx-mo class="mjx-n"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44F TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44E TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>N</mi><mo>=</mo><mi>m</mi><mrow data-mjx-texclass="ORD"><mo>/</mo></mrow><mo stretchy="false">(</mo><mi>b</mi><mi>a</mi><mo stretchy="false">)</mo></math></mjx-assistive-mml></mjx-container> for predators.
           </p>
           <div class="chart-wrapper">
-            <canvas id="phaseChart"></canvas>
+            <canvas id="phaseChart" width="651" height="320" style="display: block; box-sizing: border-box; height: 320px; width: 651.6px;"></canvas>
           </div>
-          <div id="summary" class="summary"></div>
-        </div>
-
-        <div class="card">
-          <h2>How to use this simulator</h2>
-          <ul class="bullets">
-            <li>
-              Start with <strong>Undamped cycles (classic LV)</strong> to see long-lived
-              oscillations in both time series and phase plane.
-            </li>
-            <li>
-              Compare presets to see how changing <code>a</code>, <code>b</code>, or
-              <code>m</code> makes predators go extinct or lets prey escape.
-            </li>
-            <li>
-              Use the phase plane to emphasize that classic LV trajectories move
-              around closed orbits defined by the intersection of the isoclines.
-            </li>
-            <li>
-              Experiment with different initial conditions N(0) and P(0) to
-              see how starting densities choose which orbit the system follows.
-            </li>
-          </ul>
+          <div id="summary" class="summary">
+        <p class="summary-line">
+          <strong>Final prey N(t<sub>max</sub>):</strong> 10.59,
+          <strong>Final predators P(t<sub>max</sub>):</strong> 10.74
+        </p>
+        <p class="summary-line">
+          <strong>Outcome:</strong> Predators and prey both persist: the system follows a closed or nearly closed orbit rather than settling to a fixed point.
+        </p>
+        <p class="explanation-header">How to interpret this run:</p>
+        <p class="explanation-body">Both prey and predators remain at non-zero densities, and the system cycles indefinitely rather than converging to a fixed point. This is characteristic of the classic Lotka-Volterra model with exponential prey growth. Because b·a·N is small relative to m, each predator has a hard time replacing itself, which pushes the system toward predator decline.</p>
+      </div>
         </div>
       </section>
     </div>
@@ -419,7 +1140,7 @@
       N0: 40,
       P0: 9,
       tMax: 60,
-      dt: 0.02
+      dt: 0.01
     };
 
     const presets = [
@@ -436,7 +1157,7 @@
           N0: 40,
           P0: 9,
           tMax: 60,
-          dt: 0.02
+          dt: 0.01
         }
       },
       {
@@ -445,14 +1166,14 @@
         description:
           "Predators cannot replace themselves fast enough; they decline toward zero while prey grow nearly exponentially.",
         params: {
-          r: 0.8,
-          a: 0.01,
-          b: 0.1,
-          m: 0.8,
+          r: 0.6,
+          a: 0.005,
+          b: 0.05,
+          m: 1.2,
           N0: 40,
           P0: 9,
           tMax: 60,
-          dt: 0.02
+          dt: 0.01
         }
       },
       {
@@ -468,7 +1189,7 @@
           N0: 40,
           P0: 9,
           tMax: 60,
-          dt: 0.02
+          dt: 0.01
         }
       },
       {
@@ -484,7 +1205,7 @@
           N0: 80,
           P0: 4,
           tMax: 60,
-          dt: 0.02
+          dt: 0.01
         }
       }
     ];
@@ -516,7 +1237,6 @@
       setNumber("N0", p.N0);
       setNumber("P0", p.P0);
       setNumber("tMax", p.tMax);
-      setNumber("dt", p.dt);
     }
 
     // -----------------------------
@@ -608,7 +1328,7 @@
         case "prey_crash":
           return "Prey are driven to very low density while predators temporarily remain.";
         case "unstable":
-          return "The simulation became numerically unstable. Try a smaller time step Δt or smaller growth/interaction rates.";
+          return "The simulation became numerically unstable. Try smaller growth or interaction rates.";
         case "other":
         default:
           return "This parameter combination does not fit neatly into the simple categories above but still follows Lotka-Volterra dynamics.";
@@ -1008,7 +1728,7 @@
         N0: getNumber("N0"),
         P0: getNumber("P0"),
         tMax: getNumber("tMax"),
-        dt: getNumber("dt")
+        dt: 0.01
       };
     }
 
@@ -1084,5 +1804,516 @@
       resetDefaults();
     });
   </script>
-</body>
-</html>
+
+</body><div id="aiFabShadowRoot" data-fab-type="react" style="opacity: 1;"><template shadowrootmode="open"><div id="fab-react-root"><div class="fab-root"><div class="acrobat-button-container " style="bottom: 36px;"><div class="acrobat-button " role="button" aria-label="Get summaries and key insights using AI Assistant"><button class="close-btn  "><svg class="close-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><mask id="mask0_8552_7892" maskUnits="userSpaceOnUse" x="0" y="0" width="14" height="14" style="mask-type: alpha;"><path d="M7.82482 7.00034L10.6374 4.18778C10.7893 4.03592 10.7893 3.78969 10.6374 3.63783L10.3625 3.36292C10.2106 3.21106 9.96446 3.21106 9.81255 3.36292L6.99995 6.17548L4.18734 3.36292C4.03543 3.21106 3.78933 3.21106 3.63743 3.36292L3.36247 3.63783C3.21056 3.78969 3.21056 4.03592 3.36247 4.18778L6.17507 7.00034L3.36247 9.81295C3.21056 9.96481 3.21056 10.2111 3.36247 10.3629L3.63743 10.6378C3.78933 10.7897 4.03543 10.7897 4.18734 10.6378L6.99995 7.82526L9.81255 10.6378C9.96446 10.7897 10.2106 10.7897 10.3625 10.6378L10.6374 10.3629C10.7893 10.2111 10.7893 9.96481 10.6374 9.81295L7.82482 7.00034Z" fill="#222222"></path></mask><g mask="url(#mask0_8552_7892)"><rect width="14" height="14"></rect></g></svg><svg class="burger-icon" width="21" height="17" viewBox="0 0 21 17" fill="none" xmlns="http://www.w3.org/2000/svg"><mask id="mask0_12188_28876" maskUnits="userSpaceOnUse" x="3" y="3" width="15" height="14" style="mask-type: alpha;"><path d="M15.1285 12.8008H6.37852C6.08867 12.8008 5.85352 13.0359 5.85352 13.3258C5.85352 13.6156 6.08867 13.8508 6.37852 13.8508H15.1285C15.4184 13.8508 15.6535 13.6156 15.6535 13.3258C15.6535 13.0359 15.4184 12.8008 15.1285 12.8008Z" fill="#292929"></path><path d="M6.37852 6.85078H15.1285C15.4184 6.85078 15.6535 6.61562 15.6535 6.32578C15.6535 6.03594 15.4184 5.80078 15.1285 5.80078H6.37852C6.08867 5.80078 5.85352 6.03594 5.85352 6.32578C5.85352 6.61562 6.08867 6.85078 6.37852 6.85078Z" fill="#292929"></path><path d="M15.1285 9.30078H6.37852C6.08867 9.30078 5.85352 9.53594 5.85352 9.82578C5.85352 10.1156 6.08867 10.3508 6.37852 10.3508H15.1285C15.4184 10.3508 15.6535 10.1156 15.6535 9.82578C15.6535 9.53594 15.4184 9.30078 15.1285 9.30078Z" fill="#292929"></path></mask><g mask="url(#mask0_12188_28876)"><rect x="3.75391" y="3" width="14" height="14" fill="#464646"></rect></g></svg></button><div class="icon-container" role="button" tabindex="0" aria-label="Open AI Assistant"><svg id="ImportedIcons" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" class="fab-svg-icon"><path d="m6.21661,16.39534c-1.35034,2.23499-2.67933,3.64758-3.45616,3.64758-.12795.00539-.25276-.04056-.34667-.12762-.14818-.12483-.21629-.32065-.17758-.5105.14764-.80079,1.68628-1.95576,3.98041-3.00946Zm6.49075-3.19656c-.57993.12528-1.1792.27056-1.78689.43544-.4366.11893-.87951.24862-1.32255.38729.23541-.4949.4515-.98554.6398-1.452.24831-.6159.48156-1.232.69564-1.83456.18831.30354.38304.59839.58195.88207.39375.56092.81787,1.09736,1.19205,1.58176Zm-2.99822-10.63684c.08814-.18001.26644-.29855.46653-.31016.51149,0,.62276.63358.62276,1.1638-.06787,1.25011-.29293,2.48669-.66988,3.68055-.85816-2.33642-.73831-3.97319-.41942-4.53419h.00001Zm9.60883,12.20974c-.13359.4402-.56725.71808-1.023.6555-.15594-.00061-.3112-.02054-.46224-.05933-1.07834-.28263-2.07953-.80363-2.92976-1.5246.71719-.11267,1.44198-.17001,2.16797-.17149.48402-.00813.96771.03017,1.44442.11438.43447.09244.92449.33873.80261.98554Zm1.45515-1.0537c-1.01837-.83309-2.33117-1.21735-3.63802-1.06487-.98482.00983-1.96732.09739-2.93836.26187-.62354-.62512-1.19003-1.30467-1.69272-2.03054-.38314-.54455-.73672-1.10931-1.05923-1.69182.54287-1.57384.85986-3.2167.94151-4.87953,0-1.49369-.57564-3.09087-2.19132-3.09087-.56296.01952-1.07528.33036-1.35261.82066-.68906,1.2165-.41298,3.72002.68705,6.26756-.38306,1.17041-.80046,2.31007-1.31196,3.57265-.43687,1.08123-.93191,2.13803-1.48293,3.16579-1.64775.68213-5.15115,2.33642-5.48494,4.16456-.10306.53569.0783,1.08658.47942,1.45629.39145.35044.90217.53779,1.42737.5236,2.10998,0,4.21366-3.003,5.63044-5.58789.80461-.2816,1.62641-.53671,2.44391-.759.8967-.24407,1.76345-.44427,2.58082-.594,1.39014,1.39224,3.25004,2.21523,5.21531,2.30773,1.36751,0,1.87887-.60942,2.06516-1.122.20733-.5893.08589-1.24438-.3189-1.72019Z" fill="var(--iconRed, #d31510)" fill-rule="evenodd"></path></svg></div></div><div class="draggable-handle "><svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.60039 13.0699C5.26313 13.0699 5.80039 12.5327 5.80039 11.8699C5.80039 11.2072 5.26313 10.6699 4.60039 10.6699C3.93765 10.6699 3.40039 11.2072 3.40039 11.8699C3.40039 12.5327 3.93765 13.0699 4.60039 13.0699Z" fill="#292929"></path><path d="M4.60039 8.27109C5.26313 8.27109 5.80039 7.73384 5.80039 7.07109C5.80039 6.40835 5.26313 5.87109 4.60039 5.87109C3.93765 5.87109 3.40039 6.40835 3.40039 7.07109C3.40039 7.73384 3.93765 8.27109 4.60039 8.27109Z" fill="#292929"></path><path d="M4.60039 3.47031C5.26313 3.47031 5.80039 2.93305 5.80039 2.27031C5.80039 1.60757 5.26313 1.07031 4.60039 1.07031C3.93765 1.07031 3.40039 1.60757 3.40039 2.27031C3.40039 2.93305 3.93765 3.47031 4.60039 3.47031Z" fill="#292929"></path><path d="M9.4002 13.0699C10.0629 13.0699 10.6002 12.5327 10.6002 11.8699C10.6002 11.2072 10.0629 10.6699 9.4002 10.6699C8.73745 10.6699 8.2002 11.2072 8.2002 11.8699C8.2002 12.5327 8.73745 13.0699 9.4002 13.0699Z" fill="#292929"></path><path d="M9.4002 8.27109C10.0629 8.27109 10.6002 7.73384 10.6002 7.07109C10.6002 6.40835 10.0629 5.87109 9.4002 5.87109C8.73745 5.87109 8.2002 6.40835 8.2002 7.07109C8.2002 7.73384 8.73745 8.27109 9.4002 8.27109Z" fill="#292929"></path><path d="M9.4002 3.47031C10.0629 3.47031 10.6002 2.93305 10.6002 2.27031C10.6002 1.60757 10.0629 1.07031 9.4002 1.07031C8.73745 1.07031 8.2002 1.60757 8.2002 2.27031C8.2002 2.93305 8.73745 3.47031 9.4002 3.47031Z" fill="#292929"></path></svg></div></div></div></div><style>
+    .acrobat-button-container {
+        position: fixed;
+        right: 0;
+        bottom: 36px;
+        z-index: 2147483646;
+        visibility: visible !important;
+        pointer-events: all;
+        opacity: 1;
+        display: flex;
+        align-items: center;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    @media print {
+        .acrobat-button-container {
+            display: none !important;
+        }
+    }
+
+    .acrobat-button {
+        position: relative;
+        background: white;
+        display: flex;
+        align-items: center;
+        pointer-events: all;
+        touch-action: none;
+        box-shadow: 0px 2px 8px 0px #00000029;
+        height: 34px;
+        width: 34px;
+        border: 1px solid transparent;
+        background-clip: padding-box, border-box;
+        background-origin: border-box;
+        background-image: linear-gradient(white, white),
+                        linear-gradient(95.85deg, #D73220 0%, #D92361 33%, #7155FA 100%);
+        border-radius: 18px;
+        justify-content: right;
+        margin-right: var(--fab-margin-right, 28px);
+        overflow: hidden;
+    }
+
+    .acrobat-button-container-transparent {
+        opacity: 0.4 !important;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .acrobat-button-container-transparent:hover,
+    .acrobat-button-container-transparent:focus,
+    .acrobat-button-container-transparent:active {
+        opacity: 1;
+    }
+
+    .acrobat-button > svg {
+        flex-shrink: 0;
+        margin: 4px 5px 5px 5px;
+        width: 22px;
+        height: 22px;
+        pointer-events: none;
+        fill: #b40000;
+    }
+    .acrobat-button:has(.close-btn.open),
+    .expand-acrobat-button {
+        width: 64px;
+    }
+
+    .disabled {
+        background: #B1B1B1;
+    }
+
+    .tooltip-text {
+        width: 160px;
+        visibility: hidden;
+        opacity: 0;
+        background-color: #FFFFFF;
+        color: #292929;
+        border-radius: 7px;
+        padding: 4px 1px 5px 9px;
+        position: absolute;
+        z-index: 1;
+        right: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+        margin-right: 10px;
+        transition: opacity 0.3s, visibility 0s linear 2s;
+        font-size: 12px;
+        line-height: 15px;
+        font-family: 'adobe-clean', Adobe Clean, sans-serif;
+        filter: drop-shadow(0px 1px 6px rgba(0, 0, 0, 0.12));
+    }
+
+    .tooltip-text::after {
+       content: '';
+       position: absolute;
+       top: 50%;
+       left: 100%;
+       transform: translateY(-50%);
+       border-width: 6px;
+       border-style: solid;
+       border-color: transparent transparent transparent #fff;
+    }
+
+    .show-tooltip {
+        visibility: visible;
+        opacity: 1;
+        line-height: 1.5;
+        font-family: 'adobe-clean', Adobe Clean, sans-serif;
+        transition: opacity 0.3s;
+        transition-delay: 500ms;
+    }
+
+    .close-btn {
+        position: relative;
+        display: none;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .close-btn svg {
+        fill: #464646;
+    }
+
+    .close-btn.showCloseButton {
+        opacity: 1;
+        display: flex;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        padding: 2px;
+    }
+
+    .fab-view-settings-dialog {
+        display: none;
+        position: absolute;
+        bottom: 40px;
+        z-index: 1;
+    }
+
+    .close-btn:hover {
+        background: #E6E6E6;
+        border-radius: 50%; /* Keep original circular hover */
+        cursor: pointer;
+    }
+
+    .fab-view-settings-dialog.showDialog {
+        display: block;
+    }
+    .close-btn .burger-icon {
+        display: inline;
+        margin-bottom: 2px;
+    }
+    .close-btn .close-icon {
+        display: none;
+    }
+    .close-btn.open .burger-icon {
+        display: none;
+    }
+    .close-btn.open .close-icon {
+        display: inline;
+    }
+    .tooltip-text .tooltip-text-content {
+        font-weight: bold;
+    }
+    .tooltip-text .tooltip-sub-text-text {
+        font-style: italic;
+        font-size: 11px;
+    }
+
+    /* Icon container styles - replaces iframe */
+    .icon-container {
+        width: 33px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: grab;
+        pointer-events: all;
+        flex-shrink: 0;
+        background: transparent;
+        border: none;
+    }
+
+    .icon-container:active {
+        cursor: grabbing;
+    }
+
+    .fab-svg-icon {
+        width: 22px;
+        height: 22px;
+        padding: 5px 5px 5px 6px;
+        pointer-events: none;
+        fill: #b40000;
+    }
+
+    .draggable-handle {
+        display: none;
+        position: absolute;
+        right: var(--drag-handle-right, 12px);
+        cursor: grab;
+    }
+    .draggable-handle-visible {
+        display: flex;
+    }
+
+    /* Font face declarations - for proper font loading in Shadow DOM */
+    @font-face {
+        font-family: 'adobe-clean';
+        font-weight: 400;
+        src: url('chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/browser/css/fonts/AdobeClean-Regular.otf') format('opentype');
+    }
+    @font-face {
+        font-family: 'adobe-clean';
+        font-weight: 700;
+        src: url('chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/browser/css/fonts/AdobeClean-Bold.otf') format('opentype');
+    }
+    @font-face {
+        font-family: 'AdobeClean-Regular';
+        src: url('chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/browser/css/fonts/AdobeClean-Regular.otf') format('opentype');
+    }
+    @font-face {
+        font-family: 'AdobeClean-Bold';
+        src: url('chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/browser/css/fonts/AdobeClean-Bold.otf') format('opentype');
+    }
+    body {
+        font-family: 'AdobeClean-Regular', adobe-clean, "Adobe Clean", sans-serif;
+    }
+
+    .dialog-container {
+        width: 166px;
+        background-color: #ffffff;
+        border-radius: 4px;
+        border: 1px solid #B1B1B1;
+        box-shadow: 0px 1px 4px 0px #00000026;
+        z-index: 1000;
+        padding: 4px;
+        position: relative;
+        margin: 4px 0px;
+    }
+
+    .menu {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .menu .menu_item {
+        cursor: pointer;
+        font-family: 'AdobeClean-Regular', adobe-clean, "Adobe Clean", sans-serif;
+        align-content: center;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 18.2px;
+        text-align: left;
+        color: #222222;
+        padding: 0px 12px;
+        height: 32px;
+        width: 140px;
+    }
+
+    .menu .menu_item:hover {
+        background-color: #eaeaea;
+    }
+
+    .preferences {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 18.2px;
+        text-align: left;
+        color: #464646;
+    }
+
+    .divider {
+        border-top: 1px solid #E6E6E6;
+    }
+
+    /* React-specific wrappers - minimal */
+    .fab-root {
+        font-family: 'adobe-clean', Adobe Clean, sans-serif;
+    }
+
+    button.close-btn {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        z-index: 10; /* Ensure clickable above all other elements */
+        pointer-events: auto;
+    }
+
+    /* FAB Action Pills - From Figma Design */
+    .fab-pills-container {
+        position: absolute;
+        bottom: 42px; /* FAB height (34px) + gap (8px) = 42px */
+        right: var(--fab-margin-right, 28px);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-end;
+        width: 142px;
+        z-index: 1;
+    }
+
+    .fab-pills-container.pills-below {
+        bottom: auto;
+        top: 42px; /* Same gap when positioned below */
+    }
+
+    /* Extend hover area using ::after pseudo-element - doesn't affect visual layout */
+    .fab-pills-container::after {
+        content: '';
+        position: absolute;
+        top: 100%; /* Start right after the pills content */
+        left: 0;
+        right: 0;
+        height: 8px;
+        background: transparent;
+        pointer-events: auto;
+    }
+
+    .fab-pills-container.pills-below::after {
+        top: auto;
+        bottom: 100%; /* Start right before the pills when positioned below */
+    }
+
+    /* FTE Header - First Time Experience (56px with close button) */
+    .fab-fte-header {
+        position: relative;
+        width: 142px;
+        min-height: 56px;
+        background: #FFFFFF;
+        border-radius: 12px;
+        box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.08), 0px 2px 6px 0px rgba(0, 0, 0, 0.04), 0px 0px 2px 0px rgba(0, 0, 0, 0.12);
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+    }
+
+    .fab-fte-background {
+        position: absolute;
+        left: -13px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 183.33px;
+        height: 126.82px;
+        background: url('chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/browser/images/fab-header-background.svg') no-repeat center;
+        background-size: cover;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .fab-fte-close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        z-index: 2;
+        color: #222222;
+        padding: 0;
+    }
+
+    .fab-fte-close:hover {
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 12px;
+    }
+
+    .fab-fte-close svg {
+        width: 8px;
+        height: 8px;
+    }
+
+    .fab-fte-text {
+        position: relative;
+        width: 102px;
+        font-family: 'AdobeClean-Bold', adobe-clean, sans-serif;
+        font-weight: 400; /* Use Bold font file directly, not synthetic bold */
+        font-size: 12px;
+        line-height: 16px;
+        color: #222222; /* Figma spec color */
+        z-index: 1;
+        white-space: normal;
+        word-wrap: break-word;
+        margin-left: 16px;
+        margin-right: auto;
+        box-sizing: border-box;
+        -webkit-font-smoothing: subpixel-antialiased; /* Better font rendering */
+        -moz-osx-font-smoothing: auto;
+    }
+
+    /* Hover Header - Normal state (24px without close button) */
+    .fab-hover-header {
+        position: relative;
+        width: 142px;
+        min-height: 24px;
+        background: #FFFFFF; /* White background to show the colorful SVG and text */
+        border-radius: 12px;
+        box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.08), 0px 2px 6px 0px rgba(0, 0, 0, 0.04), 0px 0px 2px 0px rgba(0, 0, 0, 0.12);
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+    .fab-hover-background {
+        position: absolute;
+        left: -27px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 212.63px;
+        height: 147.09px;
+        background: url('chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/browser/images/fab-header-background.svg') no-repeat center;
+        background-size: cover;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .fab-hover-text {
+        position: relative;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'AdobeClean-Bold', adobe-clean, sans-serif;
+        font-weight: 400; /* Use Bold font file directly, not synthetic bold */
+        font-size: 12px;
+        line-height: 15px;
+        color: #222222; /* Figma spec color */
+        z-index: 1;
+        white-space: normal;
+        padding: 4px 9px;
+        box-sizing: border-box;
+        -webkit-font-smoothing: subpixel-antialiased; /* Better font rendering */
+        -moz-osx-font-smoothing: auto;
+    }
+
+    /* Individual Pill Buttons */
+    .fab-pill-button {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0;
+        width: 142px;
+        min-height: 24px; /* Min height, allows growth with content */
+        background: #FFFFFF;
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.08), 0px 2px 6px 0px rgba(0, 0, 0, 0.04), 0px 0px 2px 0px rgba(0, 0, 0, 0.12);
+        cursor: pointer;
+        padding: 0;
+        transition: background 0.2s ease;
+        overflow: visible;
+    }
+
+    .fab-pill-button:hover {
+        background: #D5D5D5;
+    }
+
+    .fab-pill-button:hover .fab-pill-label,
+    .fab-pill-button:hover .fab-pill-icon {
+        color: #000000; /* Hover state color from Figma Alias/content/neutral/hover */
+    }
+
+    .fab-pill-button:active {
+        background: #F4F4F4;
+    }
+
+    .fab-pill-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px 7px 4px 10px; /* Exact Figma specs: top right bottom left */
+        flex-shrink: 0;
+        box-sizing: border-box;
+    }
+
+    .fab-pill-icon img {
+        width: 16px;
+        height: 16px;
+        display: block;
+        flex-shrink: 0;
+        /* SVG icons with currentColor fill will inherit color from parent */
+        filter: brightness(0) saturate(100%) invert(13%) sepia(0%) saturate(0%) hue-rotate(196deg) brightness(97%) contrast(97%); /* #222222 */
+    }
+
+    .fab-pill-button:hover .fab-pill-icon img {
+        filter: brightness(0) saturate(100%); /* #000000 on hover */
+    }
+
+    .fab-pill-label {
+        display: flex;
+        align-items: center;
+        font-family: 'AdobeClean-Bold', adobe-clean, sans-serif;
+        font-weight: 400; /* Use Bold font file directly, not synthetic bold */
+        font-size: 12px;
+        line-height: 15px; /* 1.252 * 12px = 15.024px */
+        color: #222222; /* Default text color from Figma Alias/content/neutral/default */
+        padding: 4px 9px 5px 0; /* Reduced right padding to prevent wrapping */
+        text-align: left;
+        white-space: normal; /* Allow text wrapping for multi-line content */
+        box-sizing: border-box;
+        flex: 1;
+        overflow: visible;
+        -webkit-font-smoothing: subpixel-antialiased; /* Better font rendering */
+        -moz-osx-font-smoothing: auto;
+    }
+</style></template></div></html>
