@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0067)file:///C:/Users/bdg2/Downloads/LV_predator-prey_selfcontained.html -->
+<!-- saved from url=(0086)file:///C:/Users/bdg2/Downloads/LV_predator-prey_selfcontained_arrows_black_fixed.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   
   <title>Lotka-Volterra Predator-Prey Simulator</title>
@@ -1097,7 +1097,7 @@ mjx-c.mjx-c2F::before {
         <h2 style="margin-top: 0.1rem">
           Preset scenarios <span class="badge">teaching aid</span>
         </h2>
-        <div id="presetButtons" class="button-row"><button data-preset-id="cycles">Undamped cycles (classic LV)</button><button data-preset-id="predator_extinction">Predator extinction</button><button data-preset-id="prey_escape">Prey escape (weak predation)</button><button data-preset-id="large_orbit">Large-amplitude cycles</button></div>
+        <div id="presetButtons" class="button-row"><button data-preset-id="cycles" class="">Undamped cycles (classic LV)</button><button data-preset-id="predator_extinction" class="">Predator extinction</button><button data-preset-id="prey_escape" class="preset-selected">Prey escape (weak predation)</button><button data-preset-id="large_orbit" class="">Large-amplitude cycles</button></div>
         <p class="footer-note">
           Presets include classic undamped cycles, predator extinction, and
           prey escape from predators. Use the time series and phase plane
@@ -1145,21 +1145,22 @@ mjx-c.mjx-c2F::before {
           </p>
           <div class="chart-legend">
             <span class="legend-item"><span class="legend-line" style="border-top-color:#059669"></span>Phase-plane trajectory</span>
-            <span class="legend-item"><span class="legend-line dashed" style="border-top-color:#6b7280"></span>Zero-growth isoclines</span>
+            <span class="legend-item"><span class="legend-line dashed" style="border-top-color:#2563eb"></span>Prey isocline (dN/dt = 0)</span>
+            <span class="legend-item"><span class="legend-line dashed" style="border-top-color:#dc2626"></span>Predator isocline (dP/dt = 0)</span>
           </div>
           <div class="chart-wrapper">
             <canvas id="phaseChart" width="652" height="320"></canvas>
           </div>
           <div id="summary" class="summary">
         <p class="summary-line">
-          <strong>Final prey N(t<sub>max</sub>):</strong> 486.73,
-          <strong>Final predators P(t<sub>max</sub>):</strong> 48.44
+          <strong>Final prey N(t<sub>max</sub>):</strong> 27.36,
+          <strong>Final predators P(t<sub>max</sub>):</strong> 5.73
         </p>
         <p class="summary-line">
-          <strong>Outcome:</strong> Predators and prey both persist: the system follows a closed or nearly closed orbit rather than settling to a fixed point.
+          <strong>Outcome:</strong> This parameter combination does not fit neatly into the simple categories above but still follows Lotka-Volterra dynamics.
         </p>
         <p class="explanation-header">How to interpret this run:</p>
-        <p class="explanation-body">Both prey and predators remain at non-zero densities, and the system cycles indefinitely rather than converging to a fixed point. This is characteristic of the classic Lotka-Volterra model with exponential prey growth. Because b·a·N is small relative to m, each predator has a hard time replacing itself, which pushes the system toward predator decline. Initially, prey are much more abundant than predators. This usually leads to an early prey increase followed by a delayed predator boom.</p>
+        <p class="explanation-body">Prey and predators follow Lotka-Volterra dynamics but the final state does not fall into a simple textbook category. The attack rate a is relatively small, so predators remove prey slowly. This makes it easier for prey to increase and harder for predators to build up large populations. Because b·a·N is small relative to m, each predator has a hard time replacing itself, which pushes the system toward predator decline. This run started from the preset scenario: Attack rate and conversion efficiency are low enough that predators stay rare while prey increase.</p>
       </div>
         </div>
       </section>
@@ -1507,20 +1508,35 @@ mjx-c.mjx-c2F::before {
       ctx.restore();
     }
 
-    function drawArrowhead(ctx, x0, y0, x1, y1, color) {
+    function drawArrowhead(ctx, x0, y0, x1, y1, color, size = 12, lineWidth = 1.8) {
       const dx = x1 - x0;
       const dy = y1 - y0;
       const len = Math.sqrt(dx * dx + dy * dy);
       if (!len) return;
+
       const ux = dx / len;
       const uy = dy / len;
-      const size = 8;
+      const wing = size * 0.55;
+      const shaft = size * 0.9;
+
       ctx.save();
+      ctx.strokeStyle = color;
       ctx.fillStyle = color;
+      ctx.lineWidth = lineWidth;
+      ctx.lineCap = 'round';
+
+      const baseX = x1 - ux * shaft;
+      const baseY = y1 - uy * shaft;
+
+      ctx.beginPath();
+      ctx.moveTo(baseX, baseY);
+      ctx.lineTo(x1, y1);
+      ctx.stroke();
+
       ctx.beginPath();
       ctx.moveTo(x1, y1);
-      ctx.lineTo(x1 - ux * size - uy * size * 0.5, y1 - uy * size + ux * size * 0.5);
-      ctx.lineTo(x1 - ux * size + uy * size * 0.5, y1 - uy * size - ux * size * 0.5);
+      ctx.lineTo(baseX - uy * wing, baseY + ux * wing);
+      ctx.lineTo(baseX + uy * wing, baseY - ux * wing);
       ctx.closePath();
       ctx.fill();
       ctx.restore();
@@ -1558,30 +1574,40 @@ mjx-c.mjx-c2F::before {
 
       if (Number.isFinite(Piso)) {
         drawLine(ctx, axes.xScale(0), axes.yScale(Piso), axes.xScale(xMax), axes.yScale(Piso), {
-          color: "#6b7280",
+          color: "#2563eb",
           lineWidth: 1.5,
           dash: [6, 4]
         });
-        drawText(ctx, "P = r/a", axes.xScale(0) + 20, axes.yScale(Piso) - 10, { font: "11px system-ui", align: "left" });
+        drawText(ctx, "P = r/a", axes.pad.left - 8, axes.yScale(Piso), {
+          font: "11px system-ui",
+          color: "#2563eb",
+          align: "right",
+          baseline: "middle"
+        });
       }
 
       if (Number.isFinite(Niso)) {
         drawLine(ctx, axes.xScale(Niso), axes.yScale(0), axes.xScale(Niso), axes.yScale(yMax), {
-          color: "#6b7280",
+          color: "#dc2626",
           lineWidth: 1.5,
           dash: [6, 4]
         });
-        drawText(ctx, "N = m/(b a)", axes.xScale(Niso), axes.yScale(0) - 14, { font: "11px system-ui" });
+        drawText(ctx, "N = m/(b a)", axes.xScale(Niso), axes.pad.top + axes.plotH + 18, {
+          font: "11px system-ui",
+          color: "#dc2626",
+          align: "center",
+          baseline: "top"
+        });
       }
 
       const points = result.Ns.map((N, i) => ({ x: axes.xScale(N), y: axes.yScale(result.Ps[i]) }));
       drawPolyline(ctx, points, "#059669", 2);
 
-      const arrowFractions = [0.25, 0.5, 0.75];
+      const arrowFractions = [0.18, 0.40, 0.62, 0.84];
       arrowFractions.forEach((frac) => {
-        const idx = Math.floor(frac * (points.length - 2));
-        if (idx >= 0 && idx + 1 < points.length) {
-          drawArrowhead(ctx, points[idx].x, points[idx].y, points[idx + 1].x, points[idx + 1].y, "#059669");
+        const idx = Math.floor(frac * (points.length - 3));
+        if (idx >= 0 && idx + 2 < points.length) {
+          drawArrowhead(ctx, points[idx].x, points[idx].y, points[idx + 2].x, points[idx + 2].y, "#000000", 13, 2.0);
         }
       });
     }
