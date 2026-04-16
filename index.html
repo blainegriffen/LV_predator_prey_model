@@ -1,12 +1,9 @@
 <!DOCTYPE html>
-<!-- saved from url=(0062)file:///C:/Users/bdg2/Downloads/LV_predator-prey_repaired.html -->
+<!-- saved from url=(0067)file:///C:/Users/bdg2/Downloads/LV_predator-prey_selfcontained.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   
   <title>Lotka-Volterra Predator-Prey Simulator</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Chart.js CDN -->
-  <script src="./LV_predator-prey_files/chart.js.download"></script>
-  <!-- MathJax for pretty equations -->
   <script src="./LV_predator-prey_files/tex-mml-chtml.js.download" async=""></script>
   <style>
     :root {
@@ -40,11 +37,21 @@
       font-size: 1.9rem;
     }
 
+    .author-line {
+      margin: 0 0 0.6rem;
+      color: #374151;
+      font-size: 0.95rem;
+    }
+
     p.lead {
       margin: 0 0 1.25rem;
       color: #4b5563;
       font-size: 0.95rem;
       max-width: 800px;
+    }
+
+    .top-instructions {
+      margin: 0 0 1.25rem;
     }
 
     .layout {
@@ -154,6 +161,44 @@
     .chart-wrapper {
       height: 320px;
       width: 100%;
+      position: relative;
+    }
+
+    .chart-wrapper canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+    }
+
+    .chart-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      font-size: 0.82rem;
+      color: #374151;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .legend-line {
+      width: 20px;
+      height: 0;
+      border-top-width: 2px;
+      border-top-style: solid;
+      display: inline-block;
+    }
+
+    .legend-line.dashed {
+      border-top-style: dashed;
     }
 
     .summary {
@@ -231,16 +276,6 @@
       font-size: 0.88rem;
       color: #4b5563;
       margin-top: 0.15rem;
-    }
-
-    .author-line {
-      margin: 0 0 0.4rem;
-      color: #4b5563;
-      font-size: 0.92rem;
-    }
-
-    .top-instructions {
-      margin: 0 0 1.25rem;
     }
   </style>
 <style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
@@ -966,46 +1001,41 @@ mjx-c.mjx-c2F::before {
 <body>
   <div class="page">
     <header>
-  <h1>Lotka-Volterra Predator-Prey Simulator</h1>
-
-  <div class="author-line">
-    Developed by <strong>Blaine Griffen</strong>
-  </div>
-
-  <p class="lead">
-    Classic Lotka-Volterra model with <strong>exponential prey growth</strong>
-    (no carrying capacity). Adjust prey growth (<code>r</code>), attack rate (<code>a</code>), conversion
-    efficiency (<code>b</code>), and predator mortality (<code>m</code>) to see predator–prey
-    cycles, extinctions, and other dynamics in both time series and
-    phase-plane views. The simulator uses a fixed small internal time step for stable numerical updates.
-  </p>
-</header>
-
-    <div class="card top-instructions">
-      <h2>How to use this simulator</h2>
-      <ul class="bullets">
-        <li>
-          Start with <strong>Undamped cycles (classic LV)</strong> to see long-lived
-          oscillations in both time series and phase plane.
-        </li>
-        <li>
-          Compare presets to see how changing <code>a</code>, <code>b</code>, or
-          <code>m</code> makes predators go extinct or lets prey escape.
-        </li>
-        <li>
-          Use the phase plane to emphasize that classic LV trajectories move
-          around closed orbits defined by the intersection of the isoclines.
-        </li>
-        <li>
-          Experiment with different initial conditions N(0) and P(0) to
-          see how starting densities choose which orbit the system follows.
-        </li>
-      </ul>
-    </div>
-
+      <h1>Lotka-Volterra Predator-Prey Simulator</h1>
+      <div class="author-line">
+        Developed by <strong>Blaine Griffen</strong>
+      </div>
+      <div class="card top-instructions">
+        <h2>How to use this simulator</h2>
+        <ul class="bullets">
+          <li>
+            Start with <strong>Undamped cycles (classic LV)</strong> to see long-lived
+            oscillations in both time series and phase plane.
+          </li>
+          <li>
+            Compare presets to see how changing <code>a</code>, <code>b</code>, or
+            <code>m</code> makes predators go extinct or lets prey escape.
+          </li>
+          <li>
+            Use the phase plane to emphasize that classic LV trajectories move
+            around closed orbits defined by the intersection of the isoclines.
+          </li>
+          <li>
+            Experiment with different initial conditions N(0) and P(0) to
+            see how starting densities choose which orbit the system follows.
+          </li>
+        </ul>
+      </div>
+      <p class="lead">
+        Classic Lotka-Volterra model with <strong>exponential prey growth</strong>
+        (no carrying capacity). Adjust prey growth (<code>r</code>), attack rate (<code>a</code>), conversion
+        efficiency (<code>b</code>), and predator mortality (<code>m</code>) to see predator-prey
+        cycles, extinctions, and other dynamics in both time series and
+        phase-plane views.
+      </p>
+    </header>
 
     <div class="layout">
-      <!-- Controls -->
       <section class="card">
         <h2>Model parameters</h2>
         <div class="params-grid">
@@ -1026,7 +1056,7 @@ mjx-c.mjx-c2F::before {
           <div class="field">
             <label for="b">
               <span>b (conversion efficiency)</span>
-              <small>prey → new predators</small>
+              <small>prey to new predators</small>
             </label>
             <input id="b" type="number" step="0.01" min="0" max="1" value="0.5">
           </div>
@@ -1075,12 +1105,10 @@ mjx-c.mjx-c2F::before {
         </p>
       </section>
 
-      <!-- Output -->
       <section style="display: flex; flex-direction: column; gap: 1rem; min-width: 0;">
         <div class="card">
           <h2>Time series of predator and prey</h2>
 
-          <!-- Pretty equations block (MathJax) -->
           <div class="equations">
             <div class="equations-line">
               <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" display="true" tabindex="0" ctxtmenu_counter="0" style="font-size: 113%; position: relative;"><mjx-math display="true" class="MJX-TEX" aria-hidden="true" style="margin-left: 0px; margin-right: 0px;"><mjx-mfrac><mjx-frac type="d"><mjx-num><mjx-nstrut type="d"></mjx-nstrut><mjx-mrow><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D451 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D441 TEX-I"></mjx-c></mjx-mi></mjx-mrow></mjx-num><mjx-dbox><mjx-dtable><mjx-line type="d"></mjx-line><mjx-row><mjx-den><mjx-dstrut type="d"></mjx-dstrut><mjx-mrow><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D451 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D461 TEX-I"></mjx-c></mjx-mi></mjx-mrow></mjx-den></mjx-row></mjx-dtable></mjx-dbox></mjx-frac></mjx-mfrac><mjx-mo class="mjx-n" space="4"><mjx-c class="mjx-c3D"></mjx-c></mjx-mo><mjx-mi class="mjx-i" space="4"><mjx-c class="mjx-c1D45F TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D441 TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n" space="3"><mjx-c class="mjx-c2212"></mjx-c></mjx-mo><mjx-mi class="mjx-i" space="3"><mjx-c class="mjx-c1D44E TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D441 TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D443 TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="block"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mfrac><mrow><mi>d</mi><mi>N</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mi>r</mi><mi>N</mi><mo>−</mo><mi>a</mi><mi>N</mi><mi>P</mi></math></mjx-assistive-mml></mjx-container>
@@ -1099,8 +1127,12 @@ mjx-c.mjx-c2F::before {
             Prey N(t) and predators P(t) through time under the classic
             Lotka-Volterra predator-prey model.
           </p>
+          <div class="chart-legend">
+            <span class="legend-item"><span class="legend-line" style="border-top-color:#2563eb"></span>Prey N(t)</span>
+            <span class="legend-item"><span class="legend-line" style="border-top-color:#dc2626"></span>Predators P(t)</span>
+          </div>
           <div class="chart-wrapper">
-            <canvas id="lvChart" width="651" height="320" style="display: block; box-sizing: border-box; height: 320px; width: 651.6px;"></canvas>
+            <canvas id="lvChart" width="652" height="320"></canvas>
           </div>
         </div>
 
@@ -1111,35 +1143,32 @@ mjx-c.mjx-c2F::before {
             arrowheads show the direction of motion through time. Dashed lines are
             the zero-growth isoclines: <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="9" style="font-size: 113.1%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D443 TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n" space="4"><mjx-c class="mjx-c3D"></mjx-c></mjx-mo><mjx-mi class="mjx-i" space="4"><mjx-c class="mjx-c1D45F TEX-I"></mjx-c></mjx-mi><mjx-texatom texclass="ORD"><mjx-mo class="mjx-n"><mjx-c class="mjx-c2F"></mjx-c></mjx-mo></mjx-texatom><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44E TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>P</mi><mo>=</mo><mi>r</mi><mrow data-mjx-texclass="ORD"><mo>/</mo></mrow><mi>a</mi></math></mjx-assistive-mml></mjx-container> for prey and <mjx-container class="MathJax CtxtMenu_Attached_0" jax="CHTML" tabindex="0" ctxtmenu_counter="10" style="font-size: 113.1%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D441 TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n" space="4"><mjx-c class="mjx-c3D"></mjx-c></mjx-mo><mjx-mi class="mjx-i" space="4"><mjx-c class="mjx-c1D45A TEX-I"></mjx-c></mjx-mi><mjx-texatom texclass="ORD"><mjx-mo class="mjx-n"><mjx-c class="mjx-c2F"></mjx-c></mjx-mo></mjx-texatom><mjx-mo class="mjx-n"><mjx-c class="mjx-c28"></mjx-c></mjx-mo><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44F TEX-I"></mjx-c></mjx-mi><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44E TEX-I"></mjx-c></mjx-mi><mjx-mo class="mjx-n"><mjx-c class="mjx-c29"></mjx-c></mjx-mo></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>N</mi><mo>=</mo><mi>m</mi><mrow data-mjx-texclass="ORD"><mo>/</mo></mrow><mo stretchy="false">(</mo><mi>b</mi><mi>a</mi><mo stretchy="false">)</mo></math></mjx-assistive-mml></mjx-container> for predators.
           </p>
+          <div class="chart-legend">
+            <span class="legend-item"><span class="legend-line" style="border-top-color:#059669"></span>Phase-plane trajectory</span>
+            <span class="legend-item"><span class="legend-line dashed" style="border-top-color:#6b7280"></span>Zero-growth isoclines</span>
+          </div>
           <div class="chart-wrapper">
-            <canvas id="phaseChart" width="651" height="320" style="display: block; box-sizing: border-box; height: 320px; width: 651.6px;"></canvas>
+            <canvas id="phaseChart" width="652" height="320"></canvas>
           </div>
           <div id="summary" class="summary">
         <p class="summary-line">
-          <strong>Final prey N(t<sub>max</sub>):</strong> 10.59,
-          <strong>Final predators P(t<sub>max</sub>):</strong> 10.74
+          <strong>Final prey N(t<sub>max</sub>):</strong> 486.73,
+          <strong>Final predators P(t<sub>max</sub>):</strong> 48.44
         </p>
         <p class="summary-line">
           <strong>Outcome:</strong> Predators and prey both persist: the system follows a closed or nearly closed orbit rather than settling to a fixed point.
         </p>
         <p class="explanation-header">How to interpret this run:</p>
-        <p class="explanation-body">Both prey and predators remain at non-zero densities, and the system cycles indefinitely rather than converging to a fixed point. This is characteristic of the classic Lotka-Volterra model with exponential prey growth. Because b·a·N is small relative to m, each predator has a hard time replacing itself, which pushes the system toward predator decline.</p>
+        <p class="explanation-body">Both prey and predators remain at non-zero densities, and the system cycles indefinitely rather than converging to a fixed point. This is characteristic of the classic Lotka-Volterra model with exponential prey growth. Because b·a·N is small relative to m, each predator has a hard time replacing itself, which pushes the system toward predator decline. Initially, prey are much more abundant than predators. This usually leads to an early prey increase followed by a delayed predator boom.</p>
       </div>
         </div>
-
       </section>
     </div>
   </div>
 
   <script>
-    // -----------------------------
-    // Default parameters & presets
-    // -----------------------------
-
-    // Fixed numerical time step for stable integration
     const FIXED_DT = 0.01;
 
-    // Defaults chosen to show nice undamped cycles
     const defaultParams = {
       r: 1.0,
       a: 0.02,
@@ -1172,7 +1201,7 @@ mjx-c.mjx-c2F::before {
         id: "predator_extinction",
         label: "Predator extinction",
         description:
-          "Predators cannot replace themselves fast enough; they collapse quickly while prey escape and then grow approximately exponentially.",
+          "Predators cannot replace themselves fast enough; they collapse while prey escape and then grow approximately exponentially.",
         params: {
           r: 1.0,
           a: 0.003,
@@ -1180,7 +1209,7 @@ mjx-c.mjx-c2F::before {
           m: 1.1,
           N0: 40,
           P0: 9,
-          tMax: 60,
+          tMax: 120,
           dt: FIXED_DT
         }
       },
@@ -1218,12 +1247,7 @@ mjx-c.mjx-c2F::before {
       }
     ];
 
-    // Global isocline info for the phase-plane plugin
-    window.currentIsoclines = { Niso: null, Piso: null };
-
-    // -----------------------------
-    // DOM helpers
-    // -----------------------------
+    let currentPresetId = null;
 
     function getNumber(id) {
       const el = document.getElementById(id);
@@ -1233,8 +1257,7 @@ mjx-c.mjx-c2F::before {
     }
 
     function setNumber(id, v) {
-      const el = document.getElementById(id);
-      el.value = v;
+      document.getElementById(id).value = v;
     }
 
     function loadParamsIntoInputs(p) {
@@ -1247,28 +1270,33 @@ mjx-c.mjx-c2F::before {
       setNumber("tMax", p.tMax);
     }
 
-    // -----------------------------
-    // Simulation code
-    // -----------------------------
+    function collectParamsFromInputs() {
+      return {
+        r: getNumber("r"),
+        a: getNumber("a"),
+        b: getNumber("b"),
+        m: getNumber("m"),
+        N0: getNumber("N0"),
+        P0: getNumber("P0"),
+        tMax: getNumber("tMax"),
+        dt: FIXED_DT
+      };
+    }
 
     function simulatePredPrey(params) {
       const { r, a, b, m, N0, P0, tMax, dt } = params;
-
       const steps = Math.max(1, Math.floor(tMax / dt));
       let N = N0;
       let P = P0;
       const times = [];
       const Ns = [];
       const Ps = [];
-
-      const sampleEvery = Math.max(1, Math.floor(0.5 / dt)); // ~ every 0.5 time units
-
+      const sampleEvery = Math.max(1, Math.floor(0.5 / dt));
       let maxN = N0;
       let maxP = P0;
 
       for (let i = 0; i <= steps; i++) {
         const t = i * dt;
-
         if (i % sampleEvery === 0) {
           times.push(t);
           Ns.push(Math.max(0, N));
@@ -1277,19 +1305,15 @@ mjx-c.mjx-c2F::before {
 
         const dN = r * N - a * N * P;
         const dP = b * a * N * P - m * P;
-
         N += dN * dt;
         P += dP * dt;
 
         if (!Number.isFinite(N) || !Number.isFinite(P)) {
-          console.warn("Simulation blew up; stopping early.");
           break;
         }
 
-        // avoid negative densities due to numerical error
         if (N < 0) N = 0;
         if (P < 0) P = 0;
-
         if (N > maxN) maxN = N;
         if (P > maxP) maxP = P;
       }
@@ -1306,24 +1330,14 @@ mjx-c.mjx-c2F::before {
     }
 
     function classifyOutcome(result, params) {
-      const { finalN, finalP, maxN, maxP } = result;
-      const { N0, P0 } = params;
-
-      const predatorNearZero = finalP < 0.05 * Math.max(1, maxP, P0);
+      const { finalN, finalP, maxN } = result;
+      const { N0 } = params;
+      const predatorNearZero = finalP < 0.05 * Math.max(1, result.maxP, params.P0);
       const preyBig = finalN > 5 * Math.max(1, N0);
-
-      if (!Number.isFinite(finalN) || !Number.isFinite(finalP)) {
-        return "unstable";
-      }
-      if (!predatorNearZero && finalN > 0 && finalP > 0) {
-        return "coexistence";
-      }
-      if (predatorNearZero && preyBig) {
-        return "predator_extinct";
-      }
-      if (finalN === 0 && finalP > 0) {
-        return "prey_crash";
-      }
+      if (!Number.isFinite(finalN) || !Number.isFinite(finalP)) return "unstable";
+      if (!predatorNearZero && finalN > 0 && finalP > 0) return "coexistence";
+      if (predatorNearZero && preyBig) return "predator_extinct";
+      if (finalN === 0 && finalP > 0) return "prey_crash";
       return "other";
     }
 
@@ -1336,83 +1350,50 @@ mjx-c.mjx-c2F::before {
         case "prey_crash":
           return "Prey are driven to very low density while predators temporarily remain.";
         case "unstable":
-          return "The simulation became numerically unstable for this parameter combination. Try smaller growth or interaction rates.";
-        case "other":
+          return "The simulation became numerically unstable.";
         default:
           return "This parameter combination does not fit neatly into the simple categories above but still follows Lotka-Volterra dynamics.";
       }
     }
 
     function generatePedagogicalExplanation(result, params, outcomeCode, presetDesc) {
-      const { finalN, finalP } = result;
       const { r, a, b, m, N0, P0 } = params;
-
       const lines = [];
 
-      // High-level outcome
       if (outcomeCode === "coexistence") {
-        lines.push(
-          "Both prey and predators remain at non-zero densities, and the system cycles indefinitely rather than converging to a fixed point. This is characteristic of the classic Lotka-Volterra model with exponential prey growth."
-        );
+        lines.push("Both prey and predators remain at non-zero densities, and the system cycles indefinitely rather than converging to a fixed point. This is characteristic of the classic Lotka-Volterra model with exponential prey growth.");
       } else if (outcomeCode === "predator_extinct") {
-        lines.push(
-          "Predators decline toward zero while prey increase. Here the effective gains from predation (controlled by a and b) are too weak relative to predator mortality m for predators to keep up."
-        );
+        lines.push("Predators decline toward zero while prey increase. Here the effective gains from predation, controlled by a and b, are too weak relative to predator mortality m for predators to keep up.");
       } else if (outcomeCode === "prey_crash") {
-        lines.push(
-          "Prey densities become very small while predators temporarily remain. This indicates very strong predation pressure relative to prey growth."
-        );
+        lines.push("Prey densities become very small while predators temporarily remain. This indicates very strong predation pressure relative to prey growth.");
       } else if (outcomeCode === "unstable") {
-        lines.push(
-          "The numerical solution became unstable for this parameter combination. In practice, very extreme rates can overwhelm the numerical approximation used by the simulator."
-        );
+        lines.push("The numerical solution became unstable. In practice this means the chosen rates are causing the simple approximation to break down.");
       } else {
-        lines.push(
-          "Prey and predators follow Lotka-Volterra dynamics but the final state does not fall into a simple textbook category."
-        );
+        lines.push("Prey and predators follow Lotka-Volterra dynamics but the final state does not fall into a simple textbook category.");
       }
 
-      // Interaction strength a
       if (a < 0.01) {
-        lines.push(
-          "The attack rate a is relatively small, so predators remove prey slowly. This makes it easier for prey to increase and harder for predators to build up large populations."
-        );
+        lines.push("The attack rate a is relatively small, so predators remove prey slowly. This makes it easier for prey to increase and harder for predators to build up large populations.");
       } else if (a > 0.03) {
-        lines.push(
-          "The attack rate a is relatively large, so predators remove prey quickly. This can generate large swings in both prey and predator densities."
-        );
+        lines.push("The attack rate a is relatively large, so predators remove prey quickly. This can generate large swings in both prey and predator densities.");
       }
 
-      // Conversion efficiency and mortality
       if (b * a * N0 > m) {
-        lines.push(
-          "With these parameters, the product b·a·N is large compared to predator mortality m, so predators can often replace themselves and participate in ongoing cycles."
-        );
+        lines.push("With these parameters, the product b·a·N is large compared to predator mortality m, so predators can often replace themselves and participate in ongoing cycles.");
       } else {
-        lines.push(
-          "Because b·a·N is small relative to m, each predator has a hard time replacing itself, which pushes the system toward predator decline."
-        );
+        lines.push("Because b·a·N is small relative to m, each predator has a hard time replacing itself, which pushes the system toward predator decline.");
       }
 
       if (m > 0.7) {
-        lines.push(
-          "A high predator mortality rate m means predators die quickly unless prey densities are very high."
-        );
+        lines.push("A high predator mortality rate m means predators die quickly unless prey densities are very high.");
       } else if (m < 0.4) {
-        lines.push(
-          "A relatively low predator mortality rate m means predators can persist even when prey drop, helping sustain cycles."
-        );
+        lines.push("A relatively low predator mortality rate m means predators can persist even when prey drop, helping sustain cycles.");
       }
 
-      // Initial conditions
       if (N0 > P0 * 5) {
-        lines.push(
-          "Initially, prey are much more abundant than predators. This usually leads to an early prey increase followed by a delayed predator boom."
-        );
+        lines.push("Initially, prey are much more abundant than predators. This usually leads to an early prey increase followed by a delayed predator boom.");
       } else if (P0 > N0) {
-        lines.push(
-          "Initially, predators are relatively common compared to prey, which can suppress prey early in the simulation."
-        );
+        lines.push("Initially, predators are relatively common compared to prey, which can suppress prey early in the simulation.");
       }
 
       if (presetDesc) {
@@ -1422,296 +1403,199 @@ mjx-c.mjx-c2F::before {
       return lines.join(" ");
     }
 
-    // -----------------------------
-    // Phase-plane plugin for arrows + labels
-    // -----------------------------
+    function resizeCanvas(canvas) {
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      const width = Math.max(300, Math.round(rect.width * dpr));
+      const height = Math.max(220, Math.round(rect.height * dpr));
+      if (canvas.width !== width || canvas.height !== height) {
+        canvas.width = width;
+        canvas.height = height;
+      }
+    }
 
-    const phaseExtrasPlugin = {
-      id: "phaseExtras",
-      afterDatasetsDraw(chart, args, opts) {
-        const ctx = chart.ctx;
-        const datasets = chart.data.datasets;
-        if (!datasets || datasets.length === 0) return;
+    function drawLine(ctx, x1, y1, x2, y2, options = {}) {
+      ctx.save();
+      ctx.strokeStyle = options.color || "#111827";
+      ctx.lineWidth = options.lineWidth || 2;
+      if (options.dash) ctx.setLineDash(options.dash);
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+      ctx.restore();
+    }
 
-        const trajData = datasets[0].data || [];
-        if (trajData.length < 3) return;
+    function drawText(ctx, text, x, y, options = {}) {
+      ctx.save();
+      ctx.fillStyle = options.color || "#374151";
+      ctx.font = options.font || "12px system-ui";
+      ctx.textAlign = options.align || "center";
+      ctx.textBaseline = options.baseline || "middle";
+      ctx.fillText(text, x, y);
+      ctx.restore();
+    }
 
-        const xScale = chart.scales.x;
-        const yScale = chart.scales.y;
+    function drawAxes(ctx, width, height, xMax, yMax, xLabel, yLabel) {
+      const pad = { left: 52, right: 18, top: 18, bottom: 44 };
+      const plotW = width - pad.left - pad.right;
+      const plotH = height - pad.top - pad.bottom;
 
-        ctx.save();
-        ctx.strokeStyle = "rgba(55,65,81,0.9)";
-        ctx.fillStyle = "rgba(55,65,81,0.9)";
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, width, height);
 
-        // Draw a few arrowheads along the trajectory
-        const positions = [0.25, 0.5, 0.75];
-        positions.forEach((frac) => {
-          const idx = Math.floor(frac * (trajData.length - 1));
-          const prev = trajData[Math.max(idx - 1, 0)];
-          const curr = trajData[idx];
-          const next = trajData[Math.min(idx + 1, trajData.length - 1)];
+      ctx.strokeStyle = "#d1d5db";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad.left, pad.top);
+      ctx.lineTo(pad.left, pad.top + plotH);
+      ctx.lineTo(pad.left + plotW, pad.top + plotH);
+      ctx.stroke();
 
-          const x0 = xScale.getPixelForValue(prev.x);
-          const y0 = yScale.getPixelForValue(prev.y);
-          const x1 = xScale.getPixelForValue(next.x);
-          const y1 = yScale.getPixelForValue(next.y);
+      const ticks = 5;
+      for (let i = 0; i <= ticks; i++) {
+        const frac = i / ticks;
+        const x = pad.left + frac * plotW;
+        const y = pad.top + plotH - frac * plotH;
 
-          const dx = x1 - x0;
-          const dy = y1 - y0;
-          const len = Math.sqrt(dx * dx + dy * dy);
-          if (len === 0) return;
+        ctx.strokeStyle = "#e5e7eb";
+        ctx.beginPath();
+        ctx.moveTo(x, pad.top);
+        ctx.lineTo(x, pad.top + plotH);
+        ctx.stroke();
 
-          const ux = dx / len;
-          const uy = dy / len;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, y);
+        ctx.lineTo(pad.left + plotW, y);
+        ctx.stroke();
 
-          const size = 8; // pixels
-          const px = xScale.getPixelForValue(curr.x);
-          const py = yScale.getPixelForValue(curr.y);
+        drawText(ctx, (frac * xMax).toFixed(xMax >= 10 ? 0 : 2), x, pad.top + plotH + 16, { font: "11px system-ui", color: "#6b7280" });
+        drawText(ctx, (frac * yMax).toFixed(yMax >= 10 ? 0 : 2), pad.left - 10, y, { font: "11px system-ui", color: "#6b7280", align: "right" });
+      }
 
-          // Arrowhead points
-          const tipX = px + ux * size;
-          const tipY = py + uy * size;
-          const leftX = px - ux * size * 0.4 + uy * size * 0.7;
-          const leftY = py - uy * size * 0.4 - ux * size * 0.7;
-          const rightX = px - ux * size * 0.4 - uy * size * 0.7;
-          const rightY = py - uy * size * 0.4 + ux * size * 0.7;
+      drawText(ctx, xLabel, pad.left + plotW / 2, height - 16, { font: "12px system-ui", color: "#374151" });
 
-          ctx.beginPath();
-          ctx.moveTo(tipX, tipY);
-          ctx.lineTo(leftX, leftY);
-          ctx.lineTo(rightX, rightY);
-          ctx.closePath();
-          ctx.fill();
+      ctx.save();
+      ctx.translate(16, pad.top + plotH / 2);
+      ctx.rotate(-Math.PI / 2);
+      drawText(ctx, yLabel, 0, 0, { font: "12px system-ui", color: "#374151" });
+      ctx.restore();
+
+      function xScale(v) {
+        return pad.left + (v / xMax) * plotW;
+      }
+
+      function yScale(v) {
+        return pad.top + plotH - (v / yMax) * plotH;
+      }
+
+      return { pad, plotW, plotH, xScale, yScale };
+    }
+
+    function drawPolyline(ctx, points, color, lineWidth = 2) {
+      if (!points.length) return;
+      ctx.save();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = lineWidth;
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+      for (let i = 1; i < points.length; i++) {
+        ctx.lineTo(points[i].x, points[i].y);
+      }
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawArrowhead(ctx, x0, y0, x1, y1, color) {
+      const dx = x1 - x0;
+      const dy = y1 - y0;
+      const len = Math.sqrt(dx * dx + dy * dy);
+      if (!len) return;
+      const ux = dx / len;
+      const uy = dy / len;
+      const size = 8;
+      ctx.save();
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x1 - ux * size - uy * size * 0.5, y1 - uy * size + ux * size * 0.5);
+      ctx.lineTo(x1 - ux * size + uy * size * 0.5, y1 - uy * size - ux * size * 0.5);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawTimeSeries(result) {
+      const canvas = document.getElementById("lvChart");
+      resizeCanvas(canvas);
+      const ctx = canvas.getContext("2d");
+      const width = canvas.width;
+      const height = canvas.height;
+      const xMax = Math.max(1, result.times[result.times.length - 1] || 1);
+      const yMax = Math.max(1, result.maxN, result.maxP) * 1.1;
+      const axes = drawAxes(ctx, width, height, xMax, yMax, "Time", "Population size");
+
+      const preyPoints = result.times.map((t, i) => ({ x: axes.xScale(t), y: axes.yScale(result.Ns[i]) }));
+      const predPoints = result.times.map((t, i) => ({ x: axes.xScale(t), y: axes.yScale(result.Ps[i]) }));
+      drawPolyline(ctx, preyPoints, "#2563eb", 2);
+      drawPolyline(ctx, predPoints, "#dc2626", 2);
+    }
+
+    function drawPhasePlane(result, params) {
+      const canvas = document.getElementById("phaseChart");
+      resizeCanvas(canvas);
+      const ctx = canvas.getContext("2d");
+      const width = canvas.width;
+      const height = canvas.height;
+
+      const Niso = (params.a > 0 && params.b > 0) ? params.m / (params.b * params.a) : null;
+      const Piso = (params.a > 0) ? params.r / params.a : null;
+
+      const xMax = Math.max(1, result.maxN, Number.isFinite(Niso) ? Niso : 0) * 1.1;
+      const yMax = Math.max(1, result.maxP, Number.isFinite(Piso) ? Piso : 0) * 1.1;
+      const axes = drawAxes(ctx, width, height, xMax, yMax, "Prey N", "Predators P");
+
+      if (Number.isFinite(Piso)) {
+        drawLine(ctx, axes.xScale(0), axes.yScale(Piso), axes.xScale(xMax), axes.yScale(Piso), {
+          color: "#6b7280",
+          lineWidth: 1.5,
+          dash: [6, 4]
         });
-
-        // Draw labels for isoclines near axes
-        const iso = window.currentIsoclines || {};
-        const Niso = iso.Niso;
-        const Piso = iso.Piso;
-
-        ctx.font = "10px system-ui";
-        ctx.fillStyle = "#374151";
-
-        if (Number.isFinite(Niso)) {
-          const x = xScale.getPixelForValue(Niso);
-          const y = yScale.getPixelForValue(0);
-          ctx.textAlign = "center";
-          ctx.textBaseline = "top";
-          ctx.fillText("N = m/(b a)", x, y + 2);
-        }
-
-        if (Number.isFinite(Piso)) {
-          const x = xScale.getPixelForValue(0);
-          const y = yScale.getPixelForValue(Piso);
-          ctx.textAlign = "left";
-          ctx.textBaseline = "middle";
-          ctx.fillText("P = r/a", x + 2, y);
-        }
-
-        ctx.restore();
+        drawText(ctx, "P = r/a", axes.xScale(0) + 20, axes.yScale(Piso) - 10, { font: "11px system-ui", align: "left" });
       }
-    };
 
-    // -----------------------------
-    // Chart setup
-    // -----------------------------
-
-    const ctx = document.getElementById("lvChart").getContext("2d");
-    const phaseCtx = document.getElementById("phaseChart").getContext("2d");
-
-    let lvChart = new Chart(ctx, {
-      type: "line",
-      data: {
-        labels: [],
-        datasets: [
-          {
-            label: "Prey N(t)",
-            data: [],
-            borderWidth: 2,
-            fill: false,
-            tension: 0.15
-          },
-          {
-            label: "Predators P(t)",
-            data: [],
-            borderWidth: 2,
-            fill: false,
-            tension: 0.15
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            title: {
-              display: true,
-              text: "Time"
-            }
-          },
-          y: {
-            title: {
-              display: true,
-              text: "Population size"
-            },
-            beginAtZero: true
-          }
-        },
-        plugins: {
-          legend: {
-            display: true
-          },
-          tooltip: {
-            mode: "index",
-            intersect: false
-          }
-        }
+      if (Number.isFinite(Niso)) {
+        drawLine(ctx, axes.xScale(Niso), axes.yScale(0), axes.xScale(Niso), axes.yScale(yMax), {
+          color: "#6b7280",
+          lineWidth: 1.5,
+          dash: [6, 4]
+        });
+        drawText(ctx, "N = m/(b a)", axes.xScale(Niso), axes.yScale(0) - 14, { font: "11px system-ui" });
       }
-    });
 
-    let phaseChart = new Chart(phaseCtx, {
-      type: "scatter",
-      data: {
-        datasets: []
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            title: {
-              display: true,
-              text: "Prey N"
-            },
-            beginAtZero: true
-          },
-          y: {
-            title: {
-              display: true,
-              text: "Predators P"
-            },
-            beginAtZero: true
-          }
-        },
-        plugins: {
-          legend: {
-            display: true
-          },
-          tooltip: {
-            mode: "nearest",
-            intersect: false
-          }
+      const points = result.Ns.map((N, i) => ({ x: axes.xScale(N), y: axes.yScale(result.Ps[i]) }));
+      drawPolyline(ctx, points, "#059669", 2);
+
+      const arrowFractions = [0.25, 0.5, 0.75];
+      arrowFractions.forEach((frac) => {
+        const idx = Math.floor(frac * (points.length - 2));
+        if (idx >= 0 && idx + 1 < points.length) {
+          drawArrowhead(ctx, points[idx].x, points[idx].y, points[idx + 1].x, points[idx + 1].y, "#059669");
         }
-      },
-      plugins: [phaseExtrasPlugin]
-    });
-
-    function updateCharts(result, params) {
-      // time series
-      lvChart.data.labels = result.times;
-      lvChart.data.datasets[0].data = result.Ns;
-      lvChart.data.datasets[1].data = result.Ps;
-      lvChart.update();
-
-      // phase plane: trajectory + isoclines
-      const phaseData = result.Ns.map((N, i) => ({
-        x: N,
-        y: result.Ps[i]
-      }));
-
-      const r = params.r;
-      const a = params.a;
-      const b = params.b;
-      const m = params.m;
-
-      const Niso = (a > 0 && b > 0) ? m / (b * a) : null; // predator isocline
-      const Piso = (a > 0) ? r / a : null;                 // prey isocline
-
-      // choose plotting limits based on trajectory and isoclines
-      const maxNData = result.maxN || Math.max(...result.Ns, 1);
-      const maxPData = result.maxP || Math.max(...result.Ps, 1);
-
-      const maxNPlot = Math.max(
-        maxNData,
-        Number.isFinite(Niso) ? Niso : 0
-      ) * 1.1;
-      const maxPPlot = Math.max(
-        maxPData,
-        Number.isFinite(Piso) ? Piso : 0
-      ) * 1.1;
-
-      const preyIsoData = Number.isFinite(Piso)
-        ? [
-            { x: 0, y: Piso },
-            { x: maxNPlot, y: Piso }
-          ]
-        : [];
-
-      const predIsoData = Number.isFinite(Niso)
-        ? [
-            { x: Niso, y: 0 },
-            { x: Niso, y: maxPPlot }
-          ]
-        : [];
-
-      phaseChart.data.datasets = [
-        {
-          label: "Phase-plane trajectory",
-          data: phaseData,
-          borderWidth: 2,
-          showLine: true,
-          fill: false,
-          pointRadius: 2
-        },
-        {
-          label: "Prey isocline (dN/dt = 0)",
-          data: preyIsoData,
-          borderWidth: 1.5,
-          borderDash: [6, 4],
-          showLine: true,
-          pointRadius: 0,
-          fill: false
-        },
-        {
-          label: "Predator isocline (dP/dt = 0)",
-          data: predIsoData,
-          borderWidth: 1.5,
-          borderDash: [6, 4],
-          showLine: true,
-          pointRadius: 0,
-          fill: false
-        }
-      ];
-
-      phaseChart.options.scales.x.min = 0;
-      phaseChart.options.scales.y.min = 0;
-      phaseChart.options.scales.x.max = maxNPlot;
-      phaseChart.options.scales.y.max = maxPPlot;
-
-      // store isocline positions for plugin labels
-      window.currentIsoclines = { Niso, Piso };
-
-      phaseChart.update();
+      });
     }
 
     function updateSummary(result, params, presetDesc) {
       const summaryEl = document.getElementById("summary");
-      const { finalN, finalP } = result;
-
       const outcomeCode = classifyOutcome(result, params);
       const qualitativeLabel = describeOutcomeLabel(outcomeCode);
-      const explanation = generatePedagogicalExplanation(
-        result,
-        params,
-        outcomeCode,
-        presetDesc
-      );
+      const explanation = generatePedagogicalExplanation(result, params, outcomeCode, presetDesc);
 
       summaryEl.innerHTML = `
         <p class="summary-line">
-          <strong>Final prey N(t<sub>max</sub>):</strong> ${finalN.toFixed(2)},
-          <strong>Final predators P(t<sub>max</sub>):</strong> ${finalP.toFixed(2)}
+          <strong>Final prey N(t<sub>max</sub>):</strong> ${result.finalN.toFixed(2)},
+          <strong>Final predators P(t<sub>max</sub>):</strong> ${result.finalP.toFixed(2)}
         </p>
         <p class="summary-line">
           <strong>Outcome:</strong> ${qualitativeLabel}
@@ -1721,55 +1605,17 @@ mjx-c.mjx-c2F::before {
       `;
     }
 
-    // -----------------------------
-    // Interaction wiring
-    // -----------------------------
-
-    let currentPresetId = null;
-
-    function collectParamsFromInputs() {
-      return {
-        r: getNumber("r"),
-        a: getNumber("a"),
-        b: getNumber("b"),
-        m: getNumber("m"),
-        N0: getNumber("N0"),
-        P0: getNumber("P0"),
-        tMax: getNumber("tMax"),
-        dt: FIXED_DT
-      };
-    }
-
-    function runSimulation(presetDesc = "") {
-      const params = collectParamsFromInputs();
-      const result = simulatePredPrey(params);
-      updateCharts(result, params);
-      updateSummary(result, params, presetDesc);
-    }
-
-    function resetDefaults() {
-      currentPresetId = null;
-      loadParamsIntoInputs(defaultParams);
-      markSelectedPresetButton(null);
-      const result = simulatePredPrey(defaultParams);
-      updateCharts(result, defaultParams);
-      updateSummary(result, defaultParams, "");
-    }
-
     function markSelectedPresetButton(id) {
-      const container = document.getElementById("presetButtons");
-      const buttons = Array.from(container.querySelectorAll("button"));
+      const buttons = Array.from(document.getElementById("presetButtons").querySelectorAll("button"));
       buttons.forEach((btn) => {
-        if (btn.dataset.presetId === id) {
-          btn.classList.add("preset-selected");
-        } else {
-          btn.classList.remove("preset-selected");
-        }
+        if (btn.dataset.presetId === id) btn.classList.add("preset-selected");
+        else btn.classList.remove("preset-selected");
       });
     }
 
     function setupPresetButtons() {
       const container = document.getElementById("presetButtons");
+      container.innerHTML = "";
       presets.forEach((preset) => {
         const btn = document.createElement("button");
         btn.textContent = preset.label;
@@ -1778,43 +1624,45 @@ mjx-c.mjx-c2F::before {
           currentPresetId = preset.id;
           loadParamsIntoInputs(preset.params);
           markSelectedPresetButton(preset.id);
-
-          const result = simulatePredPrey(preset.params);
-          updateCharts(result, preset.params);
-          updateSummary(result, preset.params, preset.description);
+          runSimulation(preset.description);
         });
         container.appendChild(btn);
       });
     }
 
-    // -----------------------------
-    // Initialize on page load
-    // -----------------------------
+    function runSimulation(presetDesc = "") {
+      const params = collectParamsFromInputs();
+      const result = simulatePredPrey(params);
+      drawTimeSeries(result);
+      drawPhasePlane(result, params);
+      updateSummary(result, params, presetDesc);
+    }
+
+    function resetDefaults() {
+      currentPresetId = null;
+      loadParamsIntoInputs(defaultParams);
+      markSelectedPresetButton(null);
+      runSimulation("");
+    }
 
     window.addEventListener("DOMContentLoaded", () => {
-      loadParamsIntoInputs(defaultParams);
-
-      document
-        .getElementById("runBtn")
-        .addEventListener("click", () =>
-          runSimulation(
-            currentPresetId
-              ? presets.find((p) => p.id === currentPresetId)?.description || ""
-              : ""
-          )
-        );
-
-      document
-        .getElementById("resetBtn")
-        .addEventListener("click", resetDefaults);
-
       setupPresetButtons();
+      document.getElementById("runBtn").addEventListener("click", () => {
+        const desc = currentPresetId ? (presets.find((p) => p.id === currentPresetId) || {}).description || "" : "";
+        runSimulation(desc);
+      });
+      document.getElementById("resetBtn").addEventListener("click", resetDefaults);
       resetDefaults();
+    });
+
+    window.addEventListener("resize", () => {
+      const desc = currentPresetId ? (presets.find((p) => p.id === currentPresetId) || {}).description || "" : "";
+      runSimulation(desc);
     });
   </script>
 
 
-</body><div id="aiFabShadowRoot" data-fab-type="react" style="opacity: 1;"><template shadowrootmode="open"><div id="fab-react-root"><div class="fab-root"><div class="acrobat-button-container acrobat-button-container-transparent" style="bottom: 36px;"><div class="acrobat-button " role="button" aria-label="Get summaries and key insights using AI Assistant"><button class="close-btn  "><svg class="close-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><mask id="mask0_8552_7892" maskUnits="userSpaceOnUse" x="0" y="0" width="14" height="14" style="mask-type: alpha;"><path d="M7.82482 7.00034L10.6374 4.18778C10.7893 4.03592 10.7893 3.78969 10.6374 3.63783L10.3625 3.36292C10.2106 3.21106 9.96446 3.21106 9.81255 3.36292L6.99995 6.17548L4.18734 3.36292C4.03543 3.21106 3.78933 3.21106 3.63743 3.36292L3.36247 3.63783C3.21056 3.78969 3.21056 4.03592 3.36247 4.18778L6.17507 7.00034L3.36247 9.81295C3.21056 9.96481 3.21056 10.2111 3.36247 10.3629L3.63743 10.6378C3.78933 10.7897 4.03543 10.7897 4.18734 10.6378L6.99995 7.82526L9.81255 10.6378C9.96446 10.7897 10.2106 10.7897 10.3625 10.6378L10.6374 10.3629C10.7893 10.2111 10.7893 9.96481 10.6374 9.81295L7.82482 7.00034Z" fill="#222222"></path></mask><g mask="url(#mask0_8552_7892)"><rect width="14" height="14"></rect></g></svg><svg class="burger-icon" width="21" height="17" viewBox="0 0 21 17" fill="none" xmlns="http://www.w3.org/2000/svg"><mask id="mask0_12188_28876" maskUnits="userSpaceOnUse" x="3" y="3" width="15" height="14" style="mask-type: alpha;"><path d="M15.1285 12.8008H6.37852C6.08867 12.8008 5.85352 13.0359 5.85352 13.3258C5.85352 13.6156 6.08867 13.8508 6.37852 13.8508H15.1285C15.4184 13.8508 15.6535 13.6156 15.6535 13.3258C15.6535 13.0359 15.4184 12.8008 15.1285 12.8008Z" fill="#292929"></path><path d="M6.37852 6.85078H15.1285C15.4184 6.85078 15.6535 6.61562 15.6535 6.32578C15.6535 6.03594 15.4184 5.80078 15.1285 5.80078H6.37852C6.08867 5.80078 5.85352 6.03594 5.85352 6.32578C5.85352 6.61562 6.08867 6.85078 6.37852 6.85078Z" fill="#292929"></path><path d="M15.1285 9.30078H6.37852C6.08867 9.30078 5.85352 9.53594 5.85352 9.82578C5.85352 10.1156 6.08867 10.3508 6.37852 10.3508H15.1285C15.4184 10.3508 15.6535 10.1156 15.6535 9.82578C15.6535 9.53594 15.4184 9.30078 15.1285 9.30078Z" fill="#292929"></path></mask><g mask="url(#mask0_12188_28876)"><rect x="3.75391" y="3" width="14" height="14" fill="#464646"></rect></g></svg></button><div class="icon-container" role="button" tabindex="0" aria-label="Open AI Assistant"><svg id="ImportedIcons" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" class="fab-svg-icon"><path d="m6.21661,16.39534c-1.35034,2.23499-2.67933,3.64758-3.45616,3.64758-.12795.00539-.25276-.04056-.34667-.12762-.14818-.12483-.21629-.32065-.17758-.5105.14764-.80079,1.68628-1.95576,3.98041-3.00946Zm6.49075-3.19656c-.57993.12528-1.1792.27056-1.78689.43544-.4366.11893-.87951.24862-1.32255.38729.23541-.4949.4515-.98554.6398-1.452.24831-.6159.48156-1.232.69564-1.83456.18831.30354.38304.59839.58195.88207.39375.56092.81787,1.09736,1.19205,1.58176Zm-2.99822-10.63684c.08814-.18001.26644-.29855.46653-.31016.51149,0,.62276.63358.62276,1.1638-.06787,1.25011-.29293,2.48669-.66988,3.68055-.85816-2.33642-.73831-3.97319-.41942-4.53419h.00001Zm9.60883,12.20974c-.13359.4402-.56725.71808-1.023.6555-.15594-.00061-.3112-.02054-.46224-.05933-1.07834-.28263-2.07953-.80363-2.92976-1.5246.71719-.11267,1.44198-.17001,2.16797-.17149.48402-.00813.96771.03017,1.44442.11438.43447.09244.92449.33873.80261.98554Zm1.45515-1.0537c-1.01837-.83309-2.33117-1.21735-3.63802-1.06487-.98482.00983-1.96732.09739-2.93836.26187-.62354-.62512-1.19003-1.30467-1.69272-2.03054-.38314-.54455-.73672-1.10931-1.05923-1.69182.54287-1.57384.85986-3.2167.94151-4.87953,0-1.49369-.57564-3.09087-2.19132-3.09087-.56296.01952-1.07528.33036-1.35261.82066-.68906,1.2165-.41298,3.72002.68705,6.26756-.38306,1.17041-.80046,2.31007-1.31196,3.57265-.43687,1.08123-.93191,2.13803-1.48293,3.16579-1.64775.68213-5.15115,2.33642-5.48494,4.16456-.10306.53569.0783,1.08658.47942,1.45629.39145.35044.90217.53779,1.42737.5236,2.10998,0,4.21366-3.003,5.63044-5.58789.80461-.2816,1.62641-.53671,2.44391-.759.8967-.24407,1.76345-.44427,2.58082-.594,1.39014,1.39224,3.25004,2.21523,5.21531,2.30773,1.36751,0,1.87887-.60942,2.06516-1.122.20733-.5893.08589-1.24438-.3189-1.72019Z" fill="var(--iconRed, #d31510)" fill-rule="evenodd"></path></svg></div></div><div class="draggable-handle "><svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.60039 13.0699C5.26313 13.0699 5.80039 12.5327 5.80039 11.8699C5.80039 11.2072 5.26313 10.6699 4.60039 10.6699C3.93765 10.6699 3.40039 11.2072 3.40039 11.8699C3.40039 12.5327 3.93765 13.0699 4.60039 13.0699Z" fill="#292929"></path><path d="M4.60039 8.27109C5.26313 8.27109 5.80039 7.73384 5.80039 7.07109C5.80039 6.40835 5.26313 5.87109 4.60039 5.87109C3.93765 5.87109 3.40039 6.40835 3.40039 7.07109C3.40039 7.73384 3.93765 8.27109 4.60039 8.27109Z" fill="#292929"></path><path d="M4.60039 3.47031C5.26313 3.47031 5.80039 2.93305 5.80039 2.27031C5.80039 1.60757 5.26313 1.07031 4.60039 1.07031C3.93765 1.07031 3.40039 1.60757 3.40039 2.27031C3.40039 2.93305 3.93765 3.47031 4.60039 3.47031Z" fill="#292929"></path><path d="M9.4002 13.0699C10.0629 13.0699 10.6002 12.5327 10.6002 11.8699C10.6002 11.2072 10.0629 10.6699 9.4002 10.6699C8.73745 10.6699 8.2002 11.2072 8.2002 11.8699C8.2002 12.5327 8.73745 13.0699 9.4002 13.0699Z" fill="#292929"></path><path d="M9.4002 8.27109C10.0629 8.27109 10.6002 7.73384 10.6002 7.07109C10.6002 6.40835 10.0629 5.87109 9.4002 5.87109C8.73745 5.87109 8.2002 6.40835 8.2002 7.07109C8.2002 7.73384 8.73745 8.27109 9.4002 8.27109Z" fill="#292929"></path><path d="M9.4002 3.47031C10.0629 3.47031 10.6002 2.93305 10.6002 2.27031C10.6002 1.60757 10.0629 1.07031 9.4002 1.07031C8.73745 1.07031 8.2002 1.60757 8.2002 2.27031C8.2002 2.93305 8.73745 3.47031 9.4002 3.47031Z" fill="#292929"></path></svg></div></div></div></div><style>
+</body><div id="aiFabShadowRoot" data-fab-type="react" style="opacity: 1;"><template shadowrootmode="open"><div id="fab-react-root"><div class="fab-root"><div class="acrobat-button-container " style="bottom: 36px;"><div class="acrobat-button " role="button" aria-label="Get summaries and key insights using AI Assistant"><button class="close-btn  "><svg class="close-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><mask id="mask0_8552_7892" maskUnits="userSpaceOnUse" x="0" y="0" width="14" height="14" style="mask-type: alpha;"><path d="M7.82482 7.00034L10.6374 4.18778C10.7893 4.03592 10.7893 3.78969 10.6374 3.63783L10.3625 3.36292C10.2106 3.21106 9.96446 3.21106 9.81255 3.36292L6.99995 6.17548L4.18734 3.36292C4.03543 3.21106 3.78933 3.21106 3.63743 3.36292L3.36247 3.63783C3.21056 3.78969 3.21056 4.03592 3.36247 4.18778L6.17507 7.00034L3.36247 9.81295C3.21056 9.96481 3.21056 10.2111 3.36247 10.3629L3.63743 10.6378C3.78933 10.7897 4.03543 10.7897 4.18734 10.6378L6.99995 7.82526L9.81255 10.6378C9.96446 10.7897 10.2106 10.7897 10.3625 10.6378L10.6374 10.3629C10.7893 10.2111 10.7893 9.96481 10.6374 9.81295L7.82482 7.00034Z" fill="#222222"></path></mask><g mask="url(#mask0_8552_7892)"><rect width="14" height="14"></rect></g></svg><svg class="burger-icon" width="21" height="17" viewBox="0 0 21 17" fill="none" xmlns="http://www.w3.org/2000/svg"><mask id="mask0_12188_28876" maskUnits="userSpaceOnUse" x="3" y="3" width="15" height="14" style="mask-type: alpha;"><path d="M15.1285 12.8008H6.37852C6.08867 12.8008 5.85352 13.0359 5.85352 13.3258C5.85352 13.6156 6.08867 13.8508 6.37852 13.8508H15.1285C15.4184 13.8508 15.6535 13.6156 15.6535 13.3258C15.6535 13.0359 15.4184 12.8008 15.1285 12.8008Z" fill="#292929"></path><path d="M6.37852 6.85078H15.1285C15.4184 6.85078 15.6535 6.61562 15.6535 6.32578C15.6535 6.03594 15.4184 5.80078 15.1285 5.80078H6.37852C6.08867 5.80078 5.85352 6.03594 5.85352 6.32578C5.85352 6.61562 6.08867 6.85078 6.37852 6.85078Z" fill="#292929"></path><path d="M15.1285 9.30078H6.37852C6.08867 9.30078 5.85352 9.53594 5.85352 9.82578C5.85352 10.1156 6.08867 10.3508 6.37852 10.3508H15.1285C15.4184 10.3508 15.6535 10.1156 15.6535 9.82578C15.6535 9.53594 15.4184 9.30078 15.1285 9.30078Z" fill="#292929"></path></mask><g mask="url(#mask0_12188_28876)"><rect x="3.75391" y="3" width="14" height="14" fill="#464646"></rect></g></svg></button><div class="icon-container" role="button" tabindex="0" aria-label="Open AI Assistant"><svg id="ImportedIcons" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" class="fab-svg-icon"><path d="m6.21661,16.39534c-1.35034,2.23499-2.67933,3.64758-3.45616,3.64758-.12795.00539-.25276-.04056-.34667-.12762-.14818-.12483-.21629-.32065-.17758-.5105.14764-.80079,1.68628-1.95576,3.98041-3.00946Zm6.49075-3.19656c-.57993.12528-1.1792.27056-1.78689.43544-.4366.11893-.87951.24862-1.32255.38729.23541-.4949.4515-.98554.6398-1.452.24831-.6159.48156-1.232.69564-1.83456.18831.30354.38304.59839.58195.88207.39375.56092.81787,1.09736,1.19205,1.58176Zm-2.99822-10.63684c.08814-.18001.26644-.29855.46653-.31016.51149,0,.62276.63358.62276,1.1638-.06787,1.25011-.29293,2.48669-.66988,3.68055-.85816-2.33642-.73831-3.97319-.41942-4.53419h.00001Zm9.60883,12.20974c-.13359.4402-.56725.71808-1.023.6555-.15594-.00061-.3112-.02054-.46224-.05933-1.07834-.28263-2.07953-.80363-2.92976-1.5246.71719-.11267,1.44198-.17001,2.16797-.17149.48402-.00813.96771.03017,1.44442.11438.43447.09244.92449.33873.80261.98554Zm1.45515-1.0537c-1.01837-.83309-2.33117-1.21735-3.63802-1.06487-.98482.00983-1.96732.09739-2.93836.26187-.62354-.62512-1.19003-1.30467-1.69272-2.03054-.38314-.54455-.73672-1.10931-1.05923-1.69182.54287-1.57384.85986-3.2167.94151-4.87953,0-1.49369-.57564-3.09087-2.19132-3.09087-.56296.01952-1.07528.33036-1.35261.82066-.68906,1.2165-.41298,3.72002.68705,6.26756-.38306,1.17041-.80046,2.31007-1.31196,3.57265-.43687,1.08123-.93191,2.13803-1.48293,3.16579-1.64775.68213-5.15115,2.33642-5.48494,4.16456-.10306.53569.0783,1.08658.47942,1.45629.39145.35044.90217.53779,1.42737.5236,2.10998,0,4.21366-3.003,5.63044-5.58789.80461-.2816,1.62641-.53671,2.44391-.759.8967-.24407,1.76345-.44427,2.58082-.594,1.39014,1.39224,3.25004,2.21523,5.21531,2.30773,1.36751,0,1.87887-.60942,2.06516-1.122.20733-.5893.08589-1.24438-.3189-1.72019Z" fill="var(--iconRed, #d31510)" fill-rule="evenodd"></path></svg></div></div><div class="draggable-handle "><svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.60039 13.0699C5.26313 13.0699 5.80039 12.5327 5.80039 11.8699C5.80039 11.2072 5.26313 10.6699 4.60039 10.6699C3.93765 10.6699 3.40039 11.2072 3.40039 11.8699C3.40039 12.5327 3.93765 13.0699 4.60039 13.0699Z" fill="#292929"></path><path d="M4.60039 8.27109C5.26313 8.27109 5.80039 7.73384 5.80039 7.07109C5.80039 6.40835 5.26313 5.87109 4.60039 5.87109C3.93765 5.87109 3.40039 6.40835 3.40039 7.07109C3.40039 7.73384 3.93765 8.27109 4.60039 8.27109Z" fill="#292929"></path><path d="M4.60039 3.47031C5.26313 3.47031 5.80039 2.93305 5.80039 2.27031C5.80039 1.60757 5.26313 1.07031 4.60039 1.07031C3.93765 1.07031 3.40039 1.60757 3.40039 2.27031C3.40039 2.93305 3.93765 3.47031 4.60039 3.47031Z" fill="#292929"></path><path d="M9.4002 13.0699C10.0629 13.0699 10.6002 12.5327 10.6002 11.8699C10.6002 11.2072 10.0629 10.6699 9.4002 10.6699C8.73745 10.6699 8.2002 11.2072 8.2002 11.8699C8.2002 12.5327 8.73745 13.0699 9.4002 13.0699Z" fill="#292929"></path><path d="M9.4002 8.27109C10.0629 8.27109 10.6002 7.73384 10.6002 7.07109C10.6002 6.40835 10.0629 5.87109 9.4002 5.87109C8.73745 5.87109 8.2002 6.40835 8.2002 7.07109C8.2002 7.73384 8.73745 8.27109 9.4002 8.27109Z" fill="#292929"></path><path d="M9.4002 3.47031C10.0629 3.47031 10.6002 2.93305 10.6002 2.27031C10.6002 1.60757 10.0629 1.07031 9.4002 1.07031C8.73745 1.07031 8.2002 1.60757 8.2002 2.27031C8.2002 2.93305 8.73745 3.47031 9.4002 3.47031Z" fill="#292929"></path></svg></div></div></div></div><style>
     .acrobat-button-container {
         position: fixed;
         right: 0;
